@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base Toolbar -->
+    <style name="Passlocker.ToolBar" parent="Widget.MaterialComponents.Toolbar.Primary">
+        <item name="titleTextAppearance">@style/Passlocker.ToolBar.TextAppearance</item>
+        <item name="popupTheme">@style/Passlocker.Overflow.Menu.PopUpTheme</item>
+    </style>
+
+    <style name="Passlocker.ToolBar.TextAppearance" parent="TextAppearance.AppCompat.Title">
+        <item name="android:textSize">24sp</item>
+        <item name="textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
+    <!-- Base Menu  -->
+    <style name="Passlocker.Overflow.Menu" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:tint">@color/textPrimary</item>
+    </style>
+
+    <style name="Passlocker.Overflow.Menu.PopUpTheme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:backgroundTint">@color/surfaceColor</item>
+        <item name="android:textColor">@color/textPrimary</item>
+    </style>
+
+    <!-- Base primary Buttons -->
+    <style name="Passlocker.Primary.Button" parent="Widget.MaterialComponents.Button">
+        <item name="android:textSize">14sp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Passlocker.Primary.Button.Icon" parent="Widget.MaterialComponents.Button.Icon">
+        <item name="android:textSize">14sp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="iconGravity">end</item>
+    </style>
+
+    <style name="Passlocker.Primary.Button.border" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:textSize">14sp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="strokeColor">@color/colorAccent</item>
+    </style>
+
+
+    <!-- Base Secondary Buttons -->
+    <style name="Passlocker.Secondary.Button" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/surfaceColor</item>
+        <item name="android:textColor">@color/textSecondary</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+    </style>
+
+    <style name="Passlocker.Secondary.Button.Icon" parent="Widget.MaterialComponents.Button.Icon">
+        <item name="backgroundTint">@color/surfaceColor</item>
+        <item name="android:textColor">@color/textSecondary</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="iconTint">@color/textSecondary</item>
+        <item name="iconGravity">end</item>
+    </style>
+
+    <style name="Passlocker.Secondary.Button.border" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:textSize">14sp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:textColor">@color/textSecondary</item>
+        <item name="strokeColor">@color/textSecondary</item>
+    </style>
+
+
+    <!-- Base Checkbox Button style -->
+    <style name="Passlocker.CheckBox" parent="Widget.MaterialComponents.CompoundButton.CheckBox">
+        <item name="buttonTint">@color/colorPrimary</item>
+        <item name="android:textStyle">italic</item>
+    </style>
+
+
+    <!-- Base Radio Button style -->
+    <style name="Passlocker.RadioButton" parent="Widget.MaterialComponents.CompoundButton.RadioButton">
+        <item name="buttonTint">@color/colorPrimary</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Base Switch style -->
+    <style name="Passlocker.Switch" parent="Widget.MaterialComponents.CompoundButton.Switch">
+        <item name="thumbTint">@color/colorPrimary</item>
+        <item name="trackTint">#73000000</item>
+        <item name="android:textStyle">italic</item>
+    </style>
+
+    <!-- Base Edittext style -->
+    <style name="Passlocker.Edittext" parent="Widget.AppCompat.EditText">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColorHint">@color/textSecondary</item>
+        <item name="android:textColor">@drawable/edittext_enable_disable_text_color</item>
+        <item name="android:background">@drawable/edittext_state_drawable</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingEnd">8dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:gravity">start|center_vertical</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:importantForAutofill" tools:ignore="NewApi">no</item>
+    </style>
+
+    <style name="Passlocker.CardView" parent="Widget.MaterialComponents.CardView">
+        <item name="cardElevation">2dp</item>
+        <item name="cardCornerRadius">2dp</item>
+        <item name="cardUseCompatPadding">false</item>
+    </style>
+
+    <style name="Passlocker.Dialog" parent="Theme.MaterialComponents.Light.Dialog">
+        <item name="backgroundColor">@color/surfaceColorLight</item>
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerRadius">@dimen/corner_radius_12</item>
+    </style>
+
+
+</resources>

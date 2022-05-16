@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#000000</color>
+    <color name="colorAccent">#6728FF</color>
+    <color name="surfaceColor">#2C2C2C</color>
+    <color name="surfaceColorLight">#F6F2FF</color>
+    <color name="textPrimary">#FFFFFF</color>
+    <color name="textSecondary">#C4C4C4</color>
+    <color name="colorError">#FF362C</color>
+    <color name="colorOverlay1">#33A079FF</color>
+    <color name="colorOverlay2">#4D2F80ED</color>
+    <color name="control_disabled_color">#C4C4C4</color>
+    <color name="control_normal_color">#FFFFFF</color>
+    <color name="transparent">#00FFFFFF</color>
+</resources>
