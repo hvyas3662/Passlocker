@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Passlocker</string>
+
+    <!-- home screen -->
+    <string name="text_passlist">Passlist</string>
+    <string name="text_category">Category</string>
 </resources>

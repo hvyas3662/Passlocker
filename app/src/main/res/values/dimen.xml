@@ -2,6 +2,9 @@
 <resources>
     <!--view-->
     <dimen name="zero">0dp</dimen>
+    <dimen name="bottom_tab_bar_height">52dp</dimen>
+    <dimen name="bottom_tab_bar_icon_size">26dp</dimen>
+
     <dimen name="tool_bar_height">54dp</dimen>
     <dimen name="field_height">48dp</dimen>
     <dimen name="action_button_height">48dp</dimen>

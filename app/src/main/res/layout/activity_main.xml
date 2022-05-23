@@ -14,7 +14,9 @@
         app:layout_constraintBottom_toTopOf="@id/cl_bottom_bar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_bottom_bar"
@@ -29,19 +31,37 @@
         app:layout_constraintStart_toStartOf="parent">
 
 
-        <LinearLayout
-            android:id="@+id/ll_tab_bg"
+        <com.elevationsoft.customtabs.GroupLayout
+            android:id="@+id/ctv_bottom_tab_bar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            android:orientation="horizontal"
-            android:padding="@dimen/padding_8"
+            android:layout_height="@dimen/bottom_tab_bar_height"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:selectedTabFontFamily="@font/avenir_next_demi_bold"
+            app:selectedTabTextSize="16sp"
+            app:tabAnimationDuration="200"
+            app:tabFontFamily="@font/avenir_next_regular"
+            app:tabTextSize="16sp">
+
+            <com.elevationsoft.customtabs.CustomButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/ic_passlist"
+                app:iconHeight="@dimen/bottom_tab_bar_icon_size"
+                app:iconWidth="@dimen/bottom_tab_bar_icon_size"
+                app:labelText="@string/text_passlist" />
+
+            <com.elevationsoft.customtabs.CustomButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/ic_category"
+                app:iconHeight="@dimen/bottom_tab_bar_icon_size"
+                app:iconWidth="@dimen/bottom_tab_bar_icon_size"
+                app:labelText="@string/text_category" />
 
 
-        </LinearLayout>
+        </com.elevationsoft.customtabs.GroupLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

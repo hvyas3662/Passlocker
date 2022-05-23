@@ -3,32 +3,33 @@
 
     <declare-styleable name="CustomButton">
         <attr name="icon" format="reference" />
-        <attr name="iconWidth" format="integer" />
-        <attr name="iconHeight" format="integer" />
-        <attr name="iconLabelGap" format="integer" />
+        <attr name="iconWidth" format="dimension" />
+        <attr name="iconHeight" format="dimension" />
+        <attr name="iconLabelGap" format="dimension" />
+        <attr name="paddingStartEnd" format="dimension" />
         <attr name="labelText" format="string" />
-        <attr name="isSelected" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="GroupLayout">
-        <attr name="backgroundColor" format="color" />
-        <attr name="clipColor" format="color" />
+        <attr name="background" format="reference" />
+        <attr name="clipBg" format="reference" />
 
-        <attr name="padding" format="integer" />
-
-        <attr name="tabGap" format="integer" />
+        <attr name="fullPadding" format="dimension" />
 
         <attr name="tabIconTint" format="color" />
-        <attr name="SelectedTabIconTint" format="color" />
+        <attr name="selectedTabIconTint" format="color" />
 
         <attr name="tabTextColor" format="color" />
-        <attr name="tabTextSize" format="float" />
+        <attr name="tabTextSize" format="dimension" />
         <attr name="tabFontFamily" format="reference" />
 
         <attr name="selectedTabTextColor" format="color" />
-        <attr name="selectedTabTextSize" format="float" />
+        <attr name="selectedTabTextSize" format="dimension" />
         <attr name="selectedTabFontFamily" format="reference" />
 
+        <attr name="selectedTabIndex" format="integer" />
+
+        <attr name="tabAnimationDuration" format="integer" />
 
     </declare-styleable>
 </resources>

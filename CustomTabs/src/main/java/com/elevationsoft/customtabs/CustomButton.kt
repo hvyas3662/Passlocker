@@ -1,6 +1,8 @@
 package com.elevationsoft.customtabs
 
 import android.content.Context
+import android.graphics.Color
+import android.text.TextUtils
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.Gravity
@@ -13,15 +15,16 @@ import androidx.annotation.StringRes
 import androidx.core.content.res.ResourcesCompat
 import com.elevationsoft.customtabs.utils.Extensions.dp
 
-
+@Suppress("unused")
 class CustomButton : LinearLayout {
     @DrawableRes
     private var icon: Int = 0
-    private var label: String = ""
-    private var iconWidth = 24.dp
-    private var iconHeight = 24.dp
-    private var iconLabelGap = 6.dp
-    var tabSelected = false
+    private var label: String = "Tab 1"
+    private var iconWidth = 24.dp.toFloat()
+    private var iconHeight = 24.dp.toFloat()
+    private var iconLabelGap = 6.dp.toFloat()
+    private var paddingStartEnd = 8.dp.toFloat()
+    private var tabSelected = false
 
     private lateinit var ivIcon: ImageView
     private lateinit var tvLabel: TextView
@@ -47,6 +50,7 @@ class CustomButton : LinearLayout {
         orientation = HORIZONTAL
         gravity = Gravity.CENTER
 
+
         attrs?.let {
 
             val ta = context.obtainStyledAttributes(it, R.styleable.CustomButton)
@@ -57,38 +61,48 @@ class CustomButton : LinearLayout {
 
             if (ta.hasValue(R.styleable.CustomButton_iconWidth)) {
                 iconWidth =
-                    ta.getInt(R.styleable.CustomButton_iconWidth, iconWidth)
+                    ta.getDimension(R.styleable.CustomButton_iconWidth, iconWidth)
             }
 
             if (ta.hasValue(R.styleable.CustomButton_iconHeight)) {
                 iconHeight =
-                    ta.getInt(R.styleable.CustomButton_iconHeight, iconHeight)
+                    ta.getDimension(R.styleable.CustomButton_iconHeight, iconHeight)
             }
 
             if (ta.hasValue(R.styleable.CustomButton_iconLabelGap)) {
                 iconLabelGap =
-                    ta.getInt(R.styleable.CustomButton_iconLabelGap, iconLabelGap)
+                    ta.getDimension(R.styleable.CustomButton_iconLabelGap, iconLabelGap)
+            }
+
+            if (ta.hasValue(R.styleable.CustomButton_paddingStartEnd)) {
+                paddingStartEnd =
+                    ta.getDimension(R.styleable.CustomButton_paddingStartEnd, paddingStartEnd)
             }
 
             if (ta.hasValue(R.styleable.CustomButton_labelText)) {
                 label = ta.getString(R.styleable.CustomButton_labelText) ?: ""
             }
 
-            if (ta.hasValue(R.styleable.CustomButton_isSelected)) {
-                tabSelected = ta.getBoolean(R.styleable.CustomButton_isSelected, false)
-            }
-
             ta.recycle()
         }
 
+        setPadding(paddingStartEnd.toInt(), 0, paddingStartEnd.toInt(), 0)
+
+        setBackgroundColor(Color.TRANSPARENT)
         ivIcon = ImageView(context)
-        val llp = LayoutParams(iconWidth, iconHeight)
-        llp.marginEnd = iconLabelGap
+        val llp = LayoutParams(iconWidth.toInt(), iconHeight.toInt())
+        llp.marginEnd = iconLabelGap.toInt()
         ivIcon.layoutParams = llp
+        addView(ivIcon)
 
         tvLabel = TextView(context)
         val llpLabel = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
         tvLabel.layoutParams = llpLabel
+        tvLabel.maxLines = 1
+        tvLabel.ellipsize = TextUtils.TruncateAt.END
+        tvLabel.setBackgroundColor(Color.TRANSPARENT)
+        updateLabelSize(16f)
+        addView(tvLabel)
 
         updateIcon(icon)
         updateLabel(label)
@@ -109,9 +123,18 @@ class CustomButton : LinearLayout {
         updateLabel(label)
     }
 
+    fun setIsTabSelected(selected: Boolean) {
+        tabSelected = selected
+    }
+
 
     fun updateIcon(@DrawableRes icon: Int) {
         ivIcon.setImageResource(icon)
+        if (icon == 0) {
+            ivIcon.visibility = GONE
+        } else {
+            ivIcon.visibility = VISIBLE
+        }
     }
 
     fun updateLabel(str: String) {
@@ -127,12 +150,14 @@ class CustomButton : LinearLayout {
     }
 
     fun updateLabelSize(size: Float) {
-        tvLabel.setTextSize(TypedValue.COMPLEX_UNIT_SP, size)
+        tvLabel.textSize = size
     }
 
     fun updateLabelFont(font: Int) {
-        val typeface = ResourcesCompat.getFont(context, font)
-        tvLabel.typeface = typeface
+        if (font != 0) {
+            val typeface = ResourcesCompat.getFont(context, font)
+            tvLabel.typeface = typeface
+        }
     }
 
 }
