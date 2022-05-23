@@ -39,10 +39,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:selectedTabFontFamily="@font/avenir_next_demi_bold"
-            app:selectedTabTextSize="16sp"
+            app:selectedTabTextSize="@dimen/text_normal"
             app:tabAnimationDuration="200"
             app:tabFontFamily="@font/avenir_next_regular"
-            app:tabTextSize="16sp">
+            app:tabTextSize="@dimen/text_normal">
 
             <com.elevationsoft.customtabs.CustomButton
                 android:layout_width="wrap_content"

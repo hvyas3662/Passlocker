@@ -32,12 +32,12 @@ class GroupLayout : FrameLayout {
 
     @ColorInt
     private var tabTextColor = Color.WHITE
-    private var tabTextSize = 16f
+    private var tabTextSize = 16
     private var tabFontFamily: Int = 0
 
     @ColorInt
     private var selectedTabTextColor = Color.WHITE
-    private var selectedTabTextSize = 16f
+    private var selectedTabTextSize = 16
     private var selectedTabFontFamily: Int = 0
 
     private var selectedTabIndex = 0
@@ -96,7 +96,7 @@ class GroupLayout : FrameLayout {
 
             if (ta.hasValue(R.styleable.GroupLayout_tabTextSize)) {
                 tabTextSize =
-                    ta.getDimension(R.styleable.GroupLayout_tabTextSize, tabTextSize)
+                    ta.getDimensionPixelSize(R.styleable.GroupLayout_tabTextSize, tabTextSize)
             }
 
             if (ta.hasValue(R.styleable.GroupLayout_tabFontFamily)) {
@@ -112,7 +112,7 @@ class GroupLayout : FrameLayout {
 
             if (ta.hasValue(R.styleable.GroupLayout_selectedTabTextSize)) {
                 selectedTabTextSize =
-                    ta.getDimension(
+                    ta.getDimensionPixelSize(
                         R.styleable.GroupLayout_selectedTabTextSize,
                         selectedTabTextSize
                     )

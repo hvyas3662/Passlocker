@@ -101,7 +101,7 @@ class CustomButton : LinearLayout {
         tvLabel.maxLines = 1
         tvLabel.ellipsize = TextUtils.TruncateAt.END
         tvLabel.setBackgroundColor(Color.TRANSPARENT)
-        updateLabelSize(16f)
+        updateLabelSize(16)
         addView(tvLabel)
 
         updateIcon(icon)
@@ -149,8 +149,8 @@ class CustomButton : LinearLayout {
         tvLabel.setTextColor(color)
     }
 
-    fun updateLabelSize(size: Float) {
-        tvLabel.textSize = size
+    fun updateLabelSize(size: Int) {
+        tvLabel.setTextSize(TypedValue.COMPLEX_UNIT_PX, size.toFloat())
     }
 
     fun updateLabelFont(font: Int) {
