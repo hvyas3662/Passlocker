@@ -14,6 +14,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.content.res.ResourcesCompat
 import com.elevationsoft.customtabs.utils.Extensions.dp
+import com.elevationsoft.customtabs.utils.Extensions.sp
 
 @Suppress("unused")
 class CustomButton : LinearLayout {
@@ -101,7 +102,7 @@ class CustomButton : LinearLayout {
         tvLabel.maxLines = 1
         tvLabel.ellipsize = TextUtils.TruncateAt.END
         tvLabel.setBackgroundColor(Color.TRANSPARENT)
-        updateLabelSize(16)
+        updateLabelSize(16.sp)
         addView(tvLabel)
 
         updateIcon(icon)
