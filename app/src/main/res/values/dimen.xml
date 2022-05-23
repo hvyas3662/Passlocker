@@ -4,6 +4,11 @@
     <dimen name="zero">0dp</dimen>
     <dimen name="bottom_tab_bar_height">52dp</dimen>
     <dimen name="bottom_tab_bar_icon_size">26dp</dimen>
+    <dimen name="toolbar_icon_size">24dp</dimen>
+    <dimen name="empty_icon_size">170dp</dimen>
+    <dimen name="login_app_icon_size">100dp</dimen>
+    <dimen name="finger_print_icon_size">200dp</dimen>
+    <dimen name="text_negative_up">-8dp</dimen>
 
     <dimen name="tool_bar_height">54dp</dimen>
     <dimen name="field_height">48dp</dimen>
@@ -90,10 +95,10 @@
     <dimen name="text_48">48sp</dimen>
     <dimen name="text_field_title">@dimen/text_14</dimen>
     <dimen name="text_button_size">@dimen/text_14</dimen>
+    <dimen name="text_small">@dimen/text_14</dimen>
     <dimen name="text_normal">@dimen/text_16</dimen>
-    <dimen name="text_card_title">@dimen/text_18</dimen>
+    <dimen name="text_big">@dimen/text_18</dimen>
     <dimen name="text_title">@dimen/text_24</dimen>
-    <dimen name="text_big_title">@dimen/text_36</dimen>
-    <dimen name="text_name_letter_title">@dimen/text_48</dimen>
+    <dimen name="text_big_title">@dimen/text_32</dimen>
 
 </resources>

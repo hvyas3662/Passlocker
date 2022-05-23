@@ -1,7 +1,20 @@
 <resources>
     <string name="app_name">Passlocker</string>
 
+    <!-- demo -->
+    <string name="text_demo_name">Harshal vyas</string>
+    <string name="text_demo_welcome">Welcome Harshal Vyas</string>
+
     <!-- home screen -->
+    <string name="text_welcome">Welcome!</string>
     <string name="text_passlist">Passlist</string>
     <string name="text_category">Category</string>
+    <string name="text_no_data">No Data Found</string>
+    <string name="text_loading">Loading…</string>
+
+    <!-- login screen -->
+    <string name="text_enter_name">Please enter your name</string>
+    <string name="text_register">Click here to register after entering name</string>
+    <string name="text_name_error">Invalid Name</string>
+    <string name="text_login_touch_id">Please Login using Touch ID</string>
 </resources>

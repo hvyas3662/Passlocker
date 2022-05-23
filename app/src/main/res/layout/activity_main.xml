@@ -8,13 +8,69 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_frag_container"
+        android:id="@+id/cl_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/zero"
-        app:layout_constraintBottom_toTopOf="@id/cl_bottom_bar"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/padding_16"
+        android:paddingEnd="@dimen/padding_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_welcome"
+            android:layout_width="@dimen/zero"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/avenir_next_demi_bold"
+            android:text="@string/text_welcome"
+            android:textAllCaps="true"
+            android:textColor="@color/textPrimary"
+            android:textSize="@dimen/text_title"
+            app:layout_constraintBottom_toTopOf="@id/tv_name"
+            app:layout_constraintEnd_toStartOf="@id/iv_add"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="@dimen/zero"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_negative_up"
+            android:fontFamily="@font/avenir_next_medium"
+            android:text="@string/text_demo_name"
+            android:textColor="@color/textSecondary"
+            android:textSize="@dimen/text_normal"
+            app:layout_constraintEnd_toEndOf="@id/tv_welcome"
+            app:layout_constraintStart_toStartOf="@id/tv_welcome"
+            app:layout_constraintTop_toBottomOf="@id/tv_welcome" />
+
+        <ImageView
+            android:id="@+id/iv_add"
+            android:layout_width="@dimen/toolbar_icon_size"
+            android:layout_height="@dimen/toolbar_icon_size"
+            android:layout_marginTop="@dimen/margin_4"
+            android:src="@drawable/ic_add"
+            app:layout_constraintBottom_toBottomOf="@id/tv_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_welcome"
+            app:layout_constraintTop_toTopOf="@id/tv_welcome"
+            app:tint="@color/textPrimary"
+            tools:ignore="ContentDescription" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_frag_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/zero"
+        android:paddingStart="@dimen/padding_16"
+        android:paddingEnd="@dimen/padding_16"
+        app:layout_constraintBottom_toTopOf="@id/cl_bottom_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cl_toolbar">
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
