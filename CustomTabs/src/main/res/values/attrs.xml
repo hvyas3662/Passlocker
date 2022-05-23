@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CustomButton">
+        <attr name="icon" format="reference" />
+        <attr name="iconWidth" format="integer" />
+        <attr name="iconHeight" format="integer" />
+        <attr name="iconLabelGap" format="integer" />
+        <attr name="labelText" format="string" />
+        <attr name="isSelected" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="GroupLayout">
+        <attr name="backgroundColor" format="color" />
+        <attr name="clipColor" format="color" />
+
+        <attr name="padding" format="integer" />
+
+        <attr name="tabGap" format="integer" />
+
+        <attr name="tabIconTint" format="color" />
+        <attr name="SelectedTabIconTint" format="color" />
+
+        <attr name="tabTextColor" format="color" />
+        <attr name="tabTextSize" format="float" />
+        <attr name="tabFontFamily" format="reference" />
+
+        <attr name="selectedTabTextColor" format="color" />
+        <attr name="selectedTabTextSize" format="float" />
+        <attr name="selectedTabFontFamily" format="reference" />
+
+
+    </declare-styleable>
+</resources>
