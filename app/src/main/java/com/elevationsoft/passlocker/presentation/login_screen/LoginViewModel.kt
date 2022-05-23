@@ -13,7 +13,7 @@ class LoginViewModel @Inject constructor() : ViewModel() {
             return false
         } else if (nameStr.isEmpty()) {
             return false
-        } else if (nameStr.trim().length < 4) {
+        } else if (nameStr.trim().length < 3) {
             return false
         }
         return true

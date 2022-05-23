@@ -6,6 +6,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
 import androidx.biometric.BiometricPrompt
+import androidx.biometric.BiometricPrompt.ERROR_NEGATIVE_BUTTON
 import androidx.core.content.ContextCompat
 import com.elevationsoft.passlocker.R
 import com.elevationsoft.passlocker.databinding.ActivityLoginBinding
@@ -26,6 +27,11 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setUpBio()
+
+        //todo check saved user if yes the show user add ui
+
+
         binding.ivBio.setOnClickListener {
             binding.etEnterName.clearFocus()
             if (loginVm.validateName(binding.etEnterName.text.toString())) {
@@ -44,7 +50,7 @@ class LoginActivity : AppCompatActivity() {
                 binding.etEnterName.requestFocus()
             }
         }
-        setUpBio()
+
     }
 
 
@@ -57,7 +63,11 @@ class LoginActivity : AppCompatActivity() {
                     errString: CharSequence
                 ) {
                     super.onAuthenticationError(errorCode, errString)
-                    toast("Authentication error: $errString $errorCode", Toast.LENGTH_SHORT)
+                    if (errorCode == ERROR_NEGATIVE_BUTTON) {
+                        finish()
+                    } else {
+                        toast("Authentication error: $errString ($errorCode)", Toast.LENGTH_SHORT)
+                    }
                 }
 
                 override fun onAuthenticationSucceeded(
@@ -70,8 +80,8 @@ class LoginActivity : AppCompatActivity() {
             })
 
         promptInfo = BiometricPrompt.PromptInfo.Builder()
-            .setTitle("Verify Your Identity")
-            .setNegativeButtonText("Exit")
+            .setTitle(getString(R.string.text_verify_identity))
+            .setNegativeButtonText(getString(R.string.text_exit_app))
             .setAllowedAuthenticators(BIOMETRIC_STRONG)
             .build()
     }

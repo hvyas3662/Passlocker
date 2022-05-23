@@ -15,6 +15,8 @@
     <!-- login screen -->
     <string name="text_enter_name">Please enter your name</string>
     <string name="text_register">Click here to register after entering name</string>
-    <string name="text_name_error">Invalid Name</string>
+    <string name="text_name_error">Please enter valid name</string>
     <string name="text_login_touch_id">Please Login using Touch ID</string>
+    <string name="text_verify_identity">Verify Your Identity</string>
+    <string name="text_exit_app">Exit App</string>
 </resources>
