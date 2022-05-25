@@ -5,9 +5,12 @@
     <string name="text_demo_name">Harshal vyas</string>
     <string name="text_demo_welcome">Welcome Harshal Vyas</string>
 
-
     <!--Common -->
     <string name="text_submit">Submit</string>
+    <string name="text_title">Title</string>
+    <string name="text_username">Username</string>
+    <string name="text_password">Password</string>
+    <string name="text_remark">Remark</string>
 
     <!-- home screen -->
     <string name="text_welcome">Welcome!</string>
