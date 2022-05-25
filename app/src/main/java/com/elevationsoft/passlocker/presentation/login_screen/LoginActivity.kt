@@ -42,8 +42,11 @@ class LoginActivity : AppCompatActivity() {
                 "Welcome $userName"
             binding.tvWelcome.text = displayText
             binding.llLoginInfo.show()
-            binding.ivBio.hide()
+            binding.ivBio.show()
             binding.tvRegister.hide()
+            binding.ivBio.setOnClickListener {
+                biometricPrompt.authenticate(promptInfo)
+            }
         } else {
             binding.etEnterName.requestFocus()
             binding.etEnterName.show()

@@ -18,7 +18,4 @@ object Extensions {
         return Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))
     }
 
-    fun View.animateX(x: Int) {
-
-    }
 }

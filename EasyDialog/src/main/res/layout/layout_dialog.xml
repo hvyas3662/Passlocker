@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cl_parent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/dialog_bg"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:fontFamily="@font/avenir_next_bold"
+        android:gravity="center"
+        android:text="@string/text_demo_title"
+        android:textAllCaps="true"
+        android:textColor="@color/easy_dialog_text_color_primary"
+        android:textSize="@dimen/text_big"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/tv_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:background="@android:color/transparent"
+        android:fontFamily="@font/avenir_next_medium"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="@string/text_demo_message"
+        android:textColor="@color/easy_dialog_text_color_primary"
+        android:textSize="@dimen/text_normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_yes"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/button_bg"
+        android:fontFamily="@font/avenir_next_demi_bold"
+        android:gravity="center"
+        android:text="@string/text_yes"
+        android:textAllCaps="true"
+        android:textColor="@color/easy_dialog_text_color_secondary"
+        android:textSize="@dimen/text_normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_message" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_no"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/button_bg"
+        android:backgroundTint="@color/easy_dialog_button_bg_secondary"
+        android:fontFamily="@font/avenir_next_demi_bold"
+        android:gravity="center"
+        android:text="@string/text_no"
+        android:textAllCaps="true"
+        android:textColor="@color/easy_dialog_text_color_secondary"
+        android:textSize="@dimen/text_normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_yes" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
