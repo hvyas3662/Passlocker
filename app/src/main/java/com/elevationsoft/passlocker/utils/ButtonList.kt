@@ -31,6 +31,26 @@ class ButtonList {
         var LINEAR_LAYOUT_MANAGER = 36665
         var RECYCLER_VIEW_HEIGHT_MATCH_PARENT = -100
         var RECYCLER_VIEW_HEIGHT_WRAP_CONTENT = -200
+
+        fun with(ctx: Context): ButtonList {
+            val instance = ButtonList()
+            instance.ctx = ctx
+            instance.btnBg = ContextCompat.getColor(ctx, R.color.colorOverlay1)
+            instance.btnFg = ContextCompat.getColor(ctx, R.color.textPrimary)
+            instance.btnBorder = ContextCompat.getColor(ctx, R.color.textPrimary)
+
+            instance.btnBgSelected = ContextCompat.getColor(ctx, R.color.colorAccent)
+            instance.btnFgSelected = ContextCompat.getColor(ctx, R.color.textPrimary)
+            instance.btnBorderSelected = ContextCompat.getColor(ctx, R.color.colorAccent)
+
+            instance.borderWidth = 2.dp
+            instance.borderRadius = 8.dp
+            instance.orientation = ORIENTATION_HORIZONTAL
+            instance.layoutManager = LINEAR_LAYOUT_MANAGER
+            instance.gap = 6.dp
+            instance.recyclerViewHeight = 48.dp
+            return instance
+        }
     }
 
     private lateinit var ctx: Context
@@ -60,31 +80,11 @@ class ButtonList {
 
     //data and selections
     private var dataList: ArrayList<String> = ArrayList()
-    private var selectedIndex = 0
+    private var selectedIndex = -1
     private var selectedItem: String = ""
 
 
     //getter setter
-    fun with(ctx: Context): ButtonList {
-        val instance = ButtonList()
-        instance.ctx = ctx
-        instance.btnBg = ContextCompat.getColor(ctx, R.color.colorOverlay1)
-        instance.btnFg = ContextCompat.getColor(ctx, R.color.textPrimary)
-        instance.btnBorder = ContextCompat.getColor(ctx, R.color.textPrimary)
-
-        instance.btnBgSelected = ContextCompat.getColor(ctx, R.color.colorAccent)
-        instance.btnFgSelected = ContextCompat.getColor(ctx, R.color.textPrimary)
-        instance.btnBorderSelected = ContextCompat.getColor(ctx, R.color.colorAccent)
-
-        instance.borderWidth = 2.dp
-        instance.borderRadius = 8.dp
-        instance.orientation = ORIENTATION_HORIZONTAL
-        instance.layoutManager = LINEAR_LAYOUT_MANAGER
-        instance.gap = 8.dp
-        instance.recyclerViewHeight = 48.dp
-        return instance
-    }
-
     fun setRecyclerViewHeight(dp: Int): ButtonList {
         recyclerViewHeight = dp.dp
         return this
@@ -238,6 +238,18 @@ class ButtonList {
 
 
     fun createView(): RecyclerView {
+        if (selectedIndex < 0) {
+            selectedIndex = dataList.indexOf(selectedItem)
+            if (selectedIndex < 0) {
+                selectedIndex = 0
+                selectedItem = dataList[selectedIndex]
+            }
+        } else if (dataList.size < selectedIndex) {
+            selectedIndex = 0
+            selectedItem = dataList[selectedIndex]
+        }
+
+
         rv = RecyclerView(ctx)
 
         when (recyclerViewHeight) {
@@ -331,7 +343,7 @@ class ButtonList {
 
     // class and interface
     interface ItemListener {
-        fun onItemClick(item: String?, pos: Int)
+        fun onItemClick(item: String, index: Int)
     }
 
 
@@ -352,9 +364,6 @@ class ButtonList {
             if (i == selectedIndex) {
                 holder.toggleBtn.background = makeBackgroundChecked()
                 holder.toggleBtn.setTextColor(btnFgSelected)
-            } else if (itemList[i].equals(selectedItem, ignoreCase = true)) {
-                holder.toggleBtn.background = makeBackgroundChecked()
-                holder.toggleBtn.setTextColor(btnFgSelected)
             } else {
                 holder.toggleBtn.background = makeBackgroundUnChecked()
                 holder.toggleBtn.setTextColor(btnFg)
@@ -365,18 +374,9 @@ class ButtonList {
                     return@OnClickListener
                 }
 
-                if (holder.adapterPosition == selectedIndex) {
-                    selectedItem = itemList[holder.adapterPosition]
-                } else if (itemList[holder.adapterPosition].equals(
-                        selectedItem,
-                        ignoreCase = true
-                    )
-                ) {
-                    selectedIndex = itemList.indexOf(selectedItem)
-                } else {
-                    selectedIndex = -1
-                    selectedItem = ""
-                }
+                selectedIndex = holder.adapterPosition
+                selectedItem = itemList[selectedIndex]
+
                 notifyDataSetChanged()
                 if (listener != null) {
                     listener!!.onItemClick(selectedItem, selectedIndex)
