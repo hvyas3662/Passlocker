@@ -5,6 +5,10 @@
     <string name="text_demo_name">Harshal vyas</string>
     <string name="text_demo_welcome">Welcome Harshal Vyas</string>
 
+
+    <!--Common -->
+    <string name="text_submit">Submit</string>
+
     <!-- home screen -->
     <string name="text_welcome">Welcome!</string>
     <string name="text_passlist">Passlist</string>
@@ -20,4 +24,14 @@
     <string name="text_verify_identity">Verify Your Identity</string>
     <string name="text_exit_app">Exit App</string>
     <string name="error_no_finger_print">Please add a fingerprint in settings</string>
+
+    <!--Add Category-->
+    <string name="text_add_category">Add Category</string>
+    <string name="text_category_name">Category Name</string>
+    <string name="text_position">Position</string>
+
+    <!--Add credentials-->
+    <string name="text_add_credentials">Add Credentials</string>
+
+
 </resources>

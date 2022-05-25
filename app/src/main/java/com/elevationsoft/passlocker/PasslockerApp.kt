@@ -109,7 +109,7 @@ class PasslockerApp : Application() {
     companion object {
         //( 1 sec * 60) = ms in 1 mint
         //ms in 1 mint * 5  = ms in 5 mints
-        const val SESSION_TTL = ((1000L * 60) * 5)
+        const val SESSION_TTL = ((1000L * 60) * 3)
         const val SESSION_RECHECK_TIME = (1000L * 30)
         const val LOGIN_CHECK_TAG = "LOGIN_CHECK"
     }
