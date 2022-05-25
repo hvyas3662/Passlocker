@@ -37,7 +37,7 @@ class PrefUtils constructor(context: Context) {
     fun logout() {
         val editor = pref.edit()
         editor.putBoolean(KEY_IS_LOGGEDIN, false)
-        editor.putLong(KEY_LAST_LOGGEDIN_TIMESTAMP, 0L)
+        editor.putLong(KEY_LAST_LOGGEDIN_TIMESTAMP, -1L)
         editor.apply()
     }
 
@@ -46,7 +46,7 @@ class PrefUtils constructor(context: Context) {
     }
 
     fun getTimeStamp(): Long {
-        return pref.getLong(KEY_LAST_LOGGEDIN_TIMESTAMP, 0L)
+        return pref.getLong(KEY_LAST_LOGGEDIN_TIMESTAMP, -1L)
     }
 
 

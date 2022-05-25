@@ -19,4 +19,5 @@
     <string name="text_login_touch_id">Please Login using Touch ID</string>
     <string name="text_verify_identity">Verify Your Identity</string>
     <string name="text_exit_app">Exit App</string>
+    <string name="error_no_finger_print">Please add a fingerprint in settings</string>
 </resources>
