@@ -59,6 +59,7 @@
                 android:inputType="textCapWords"
                 android:layout_marginTop="@dimen/margin_2"
                 android:padding="@dimen/padding_16"
+                android:maxLength="24"
                 android:textColor="@color/textPrimary"
                 android:textSize="@dimen/text_normal"
                 tools:ignore="LabelFor" />
