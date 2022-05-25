@@ -73,6 +73,8 @@ dependencies {
     //biometric
     implementation "androidx.biometric:biometric:1.1.0"
 
+    //flex layout
+    implementation 'com.github.simonebortolin:FlowLayoutManager:1.8.0'
 
     //test
     testImplementation 'junit:junit:4.13.2'
