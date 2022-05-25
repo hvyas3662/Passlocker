@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--view-->
+    <dimen name="zero">0dp</dimen>
+    <dimen name="bottom_tab_bar_height">52dp</dimen>
+    <dimen name="bottom_tab_bar_icon_size">26dp</dimen>
+    <dimen name="toolbar_icon_size">24dp</dimen>
+    <dimen name="empty_icon_size">170dp</dimen>
+    <dimen name="login_app_icon_size">100dp</dimen>
+    <dimen name="finger_print_icon_size">200dp</dimen>
+    <dimen name="text_negative_up">-8dp</dimen>
+
+    <dimen name="tool_bar_height">54dp</dimen>
+    <dimen name="field_height">48dp</dimen>
+    <dimen name="action_button_height">48dp</dimen>
+    <dimen name="option_button_height">42dp</dimen>
+    <dimen name="small_button_height">35dp</dimen>
+    <dimen name="divider_height">1dp</dimen>
+
+    <!--corner radius-->
+    <dimen name="corner_radius_2">2dp</dimen>
+    <dimen name="corner_radius_4">4dp</dimen>
+    <dimen name="corner_radius_8">8dp</dimen>
+    <dimen name="corner_radius_12">12dp</dimen>
+    <dimen name="corner_radius_16">16dp</dimen>
+    <dimen name="corner_radius_button">@dimen/corner_radius_2</dimen>
+
+
+    <!--elevation radius-->
+    <dimen name="elevation_4">4dp</dimen>
+    <dimen name="elevation_8">8dp</dimen>
+    <dimen name="elevation_12">12dp</dimen>
+    <dimen name="elevation_16">16dp</dimen>
+
+    <!-- margins-->
+    <dimen name="margin_0">0dp</dimen>
+    <dimen name="margin_1">1dp</dimen>
+    <dimen name="margin_2">2dp</dimen>
+    <dimen name="margin_4">4dp</dimen>
+    <dimen name="margin_6">6dp</dimen>
+    <dimen name="margin_8">8dp</dimen>
+    <dimen name="margin_10">10dp</dimen>
+    <dimen name="margin_12">12dp</dimen>
+    <dimen name="margin_16">16dp</dimen>
+    <dimen name="margin_20">20dp</dimen>
+    <dimen name="margin_24">24dp</dimen>
+    <dimen name="margin_28">28dp</dimen>
+    <dimen name="margin_32">32dp</dimen>
+    <dimen name="margin_40">40dp</dimen>
+    <dimen name="margin_48">48dp</dimen>
+    <dimen name="margin_64">64dp</dimen>
+    <dimen name="margin_72">72dp</dimen>
+    <dimen name="margin_90">90dp</dimen>
+    <dimen name="margin_100">100dp</dimen>
+    <dimen name="margin_120">120dp</dimen>
+    <dimen name="margin_vertical">@dimen/margin_16</dimen>
+    <dimen name="margin_horizontal_half">@dimen/margin_8</dimen>
+    <dimen name="margin_edge">@dimen/margin_16</dimen>
+
+    <!-- padding-->
+    <dimen name="padding_0">0dp</dimen>
+    <dimen name="padding_1">1dp</dimen>
+    <dimen name="padding_2">2dp</dimen>
+    <dimen name="padding_4">4dp</dimen>
+    <dimen name="padding_6">6dp</dimen>
+    <dimen name="padding_8">8dp</dimen>
+    <dimen name="padding_10">10dp</dimen>
+    <dimen name="padding_12">12dp</dimen>
+    <dimen name="padding_16">16dp</dimen>
+    <dimen name="padding_20">20dp</dimen>
+    <dimen name="padding_24">24dp</dimen>
+    <dimen name="padding_28">28dp</dimen>
+    <dimen name="padding_32">32dp</dimen>
+    <dimen name="padding_40">40dp</dimen>
+    <dimen name="padding_48">48dp</dimen>
+    <dimen name="padding_64">64dp</dimen>
+    <dimen name="padding_72">72dp</dimen>
+    <dimen name="padding_90">90dp</dimen>
+    <dimen name="padding_120">120dp</dimen>
+
+    <!--text-->
+    <dimen name="text_10">10sp</dimen>
+    <dimen name="text_12">12sp</dimen>
+    <dimen name="text_14">14sp</dimen>
+    <dimen name="text_16">16sp</dimen>
+    <dimen name="text_18">18sp</dimen>
+    <dimen name="text_20">20sp</dimen>
+    <dimen name="text_22">22sp</dimen>
+    <dimen name="text_24">24sp</dimen>
+    <dimen name="text_26">26sp</dimen>
+    <dimen name="text_28">28sp</dimen>
+    <dimen name="text_30">30sp</dimen>
+    <dimen name="text_32">32sp</dimen>
+    <dimen name="text_36">36sp</dimen>
+    <dimen name="text_48">48sp</dimen>
+    <dimen name="text_field_title">@dimen/text_14</dimen>
+    <dimen name="text_button_size">@dimen/text_14</dimen>
+    <dimen name="text_small">@dimen/text_14</dimen>
+    <dimen name="text_normal">@dimen/text_16</dimen>
+    <dimen name="text_big">@dimen/text_18</dimen>
+    <dimen name="text_title">@dimen/text_24</dimen>
+    <dimen name="text_big_title">@dimen/text_32</dimen>
+
+</resources>
