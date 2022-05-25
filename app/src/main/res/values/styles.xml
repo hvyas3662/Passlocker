@@ -27,6 +27,7 @@
     <!-- Base primary Buttons -->
     <style name="Passlocker.Primary.Button" parent="Widget.MaterialComponents.Button">
         <item name="android:backgroundTint">@color/colorAccent</item>
+        <item name="android:textColor">@color/textPrimary</item>
         <item name="android:textSize">@dimen/text_normal</item>
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
@@ -35,6 +36,7 @@
     </style>
 
     <style name="Passlocker.Primary.Button.Icon" parent="Widget.MaterialComponents.Button.Icon">
+        <item name="android:textColor">@color/textPrimary</item>
         <item name="android:textSize">@dimen/text_normal</item>
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
@@ -45,6 +47,7 @@
         <item name="android:textSize">@dimen/text_normal</item>
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
+        <item name="android:textColor">@color/textPrimary</item>
         <item name="strokeColor">@color/colorAccent</item>
     </style>
 
@@ -109,6 +112,7 @@
         <item name="android:paddingBottom">12dp</item>
         <item name="android:gravity">start|center_vertical</item>
         <item name="android:minHeight">48dp</item>
+        <item name="fontFamily">@font/avenir_next_medium</item>
         <item name="android:importantForAutofill" tools:ignore="NewApi">no</item>
     </style>
 
@@ -119,7 +123,12 @@
     </style>
 
     <style name="Passlocker.Dialog" parent="Theme.MaterialComponents.Light.Dialog">
+        <item name="android:background">@color/surfaceColorLight</item>
+        <item name="background">@color/surfaceColorLight</item>
+        <item name="android:backgroundTint">@color/surfaceColorLight</item>
         <item name="backgroundColor">@color/surfaceColorLight</item>
+        <item name="android:popupBackground">@color/surfaceColorLight</item>
+        <item name="popupMenuBackground">@color/surfaceColorLight</item>
         <item name="cornerFamily">rounded</item>
         <item name="cornerRadius">@dimen/corner_radius_12</item>
     </style>
