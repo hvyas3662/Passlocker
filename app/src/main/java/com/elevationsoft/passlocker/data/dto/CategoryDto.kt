@@ -8,9 +8,9 @@ import com.elevationsoft.passlocker.domain.models.Category
 @Entity(tableName = "category")
 class CategoryDto(
     @PrimaryKey(autoGenerate = true)
-    private val id: Long,
-    private val categoryName: String,
-    private val position: Int
+    val id: Long,
+    val categoryName: String,
+    val position: Int
 ) {
     fun toCategory(): Category {
         return Category(id, categoryName, position)

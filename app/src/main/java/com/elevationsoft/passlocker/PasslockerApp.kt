@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Application
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import com.elevationsoft.passlocker.presentation.login_screen.LoginActivity
 import com.elevationsoft.passlocker.utils.PrefUtils
 import dagger.hilt.android.HiltAndroidApp
@@ -105,6 +106,20 @@ class PasslockerApp : Application() {
 
     }
 
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        Log.d("APP_TEST", "onLowMemory")
+        appScope.cancel()
+        currencyActivity = null
+    }
+
+    override fun onTerminate() {
+        super.onTerminate()
+        Log.d("APP_TEST", "onTerminate")
+        appScope.cancel()
+        currencyActivity = null
+    }
 
     companion object {
         //( 1 sec * 60) = ms in 1 mint

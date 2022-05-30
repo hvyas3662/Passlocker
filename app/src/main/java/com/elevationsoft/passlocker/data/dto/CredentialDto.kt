@@ -8,13 +8,13 @@ import com.elevationsoft.passlocker.domain.models.Credential
 @Entity(tableName = "credential")
 class CredentialDto(
     @PrimaryKey(autoGenerate = true)
-    private val id: Long,
-    private val title: String,
-    private val userName: String,
-    private val password: String,
-    private val remark: String,
-    private val isFavourite: Boolean,
-    private val categoryId: Long
+    val id: Long,
+    val title: String,
+    val userName: String,
+    val password: String,
+    val remark: String,
+    val isFavourite: Boolean,
+    val categoryId: Long
 ) {
     fun toCredential(): Credential {
         return Credential(id, title, userName, password, remark, isFavourite, categoryId)

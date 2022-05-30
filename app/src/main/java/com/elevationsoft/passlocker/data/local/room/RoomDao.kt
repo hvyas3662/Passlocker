@@ -21,6 +21,8 @@ interface RoomDao {
     @Query("DELETE FROM category WHERE id = :categoryId")
     suspend fun deleteCategory(categoryId: Long)
 
+    @Query("DELETE FROM credential WHERE categoryId = :catId")
+    suspend fun deleteAllCredentialCategoryVise(catId: Long)
 
     //Credential
 
@@ -28,7 +30,7 @@ interface RoomDao {
     @Query("SELECT * FROM credential WHERE isFavourite = 1 ORDER BY id DESC LIMIT :startIndex, :rowCount")
     suspend fun getFavCredentialPage(startIndex: Int, rowCount: Int): List<CredentialDto>
 
-    @Query("SELECT * FROM credential WHERE isFavourite = 1 AND (title LIKE '%:search%' OR remark LIKE '%:search%') ORDER BY id DESC LIMIT :startIndex, :rowCount")
+    @Query("SELECT * FROM credential WHERE isFavourite = 1 AND (title LIKE '%' || :search || '%' OR remark LIKE '%' || :search || '%') ORDER BY id DESC LIMIT :startIndex, :rowCount")
     suspend fun getFavCredentialPage(
         search: String,
         startIndex: Int,
@@ -44,7 +46,7 @@ interface RoomDao {
         rowCount: Int
     ): List<CredentialDto>
 
-    @Query("SELECT * FROM credential WHERE  (title LIKE '%:search%' OR remark LIKE '%:search%')  AND categoryId = :catId ORDER BY id DESC LIMIT :startIndex, :rowCount")
+    @Query("SELECT * FROM credential WHERE  (title LIKE '%' || :search || '%' OR remark LIKE '%' || :search ||'%')  AND categoryId = :catId ORDER BY id DESC LIMIT :startIndex, :rowCount")
     suspend fun getCredentialPage(
         search: String,
         catId: Long,
@@ -58,5 +60,6 @@ interface RoomDao {
 
     @Query("DELETE FROM credential WHERE id = :credentialId")
     suspend fun deleteCredential(credentialId: Long)
+
 
 }

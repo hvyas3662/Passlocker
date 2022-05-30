@@ -11,10 +11,12 @@ class CategoryRepoImpl @Inject constructor(private val roomDao: RoomDao) : Categ
     }
 
     override suspend fun insertUpdateCategory(cat: CategoryDto) {
-        return roomDao.insertUpdateCategory(cat)
+        roomDao.insertUpdateCategory(cat)
     }
 
     override suspend fun deleteCategory(categoryId: Long) {
-        return roomDao.deleteCategory(categoryId)
+        roomDao.deleteCategory(categoryId)
+        roomDao.deleteAllCredentialCategoryVise(categoryId)
     }
+
 }

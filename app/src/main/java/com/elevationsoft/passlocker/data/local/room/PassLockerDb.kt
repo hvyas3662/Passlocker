@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import com.elevationsoft.passlocker.data.dto.CategoryDto
 import com.elevationsoft.passlocker.data.dto.CredentialDto
 
-@Database(entities = [CategoryDto::class, CredentialDto::class], version = 1)
+@Database(entities = [CategoryDto::class, CredentialDto::class], version = 1, exportSchema = false)
 abstract class PassLockerDb : RoomDatabase() {
     abstract fun roomDao(): RoomDao
 }
