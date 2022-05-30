@@ -64,8 +64,6 @@
         android:id="@+id/cl_frag_container"
         android:layout_width="match_parent"
         android:layout_height="@dimen/zero"
-        android:paddingStart="@dimen/padding_16"
-        android:paddingEnd="@dimen/padding_16"
         app:layout_constraintBottom_toTopOf="@id/cl_bottom_bar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -21,7 +21,9 @@ class HomeActivity : AppCompatActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setPassListFragment()
+        homeVm.screenState.value?.let {
+            updateUi(it)
+        }
 
         binding.ctvBottomTabBar.setOnTabChangedCallBack { tabIndex ->
             homeVm.updateSelectedScreen(tabIndex)
@@ -37,12 +39,16 @@ class HomeActivity : AppCompatActivity() {
 
 
         homeVm.screenState.observe(this) {
-            if (selectedScreen != it.selectedScreen) {
-                selectedScreen = it.selectedScreen
-                updateSelectedScreen(selectedScreen)
-            }
+            updateUi(it)
         }
 
+    }
+
+    private fun updateUi(status: HomeScreenStatus) {
+        if (selectedScreen != status.selectedScreen) {
+            selectedScreen = status.selectedScreen
+            updateSelectedScreen(selectedScreen)
+        }
     }
 
     private fun updateSelectedScreen(selectedScreen: Int) {
