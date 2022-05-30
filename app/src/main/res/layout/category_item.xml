@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cv_main"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/margin_16"
+    app:cardBackgroundColor="@color/surfaceColor"
+    app:cardCornerRadius="@dimen/corner_radius_12"
+    app:cardElevation="2dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:gravity="center"
+        android:minHeight="52dp"
+        android:orientation="horizontal"
+        android:padding="@dimen/padding_12">
+
+        <TextView
+            android:id="@+id/tv_category_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:fontFamily="@font/avenir_next_demi_bold"
+            android:textColor="@color/textPrimary"
+            android:textSize="@dimen/text_normal"
+            tools:text="@string/text_demo_name" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="@dimen/divider_width"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/margin_16"
+            android:layout_marginEnd="@dimen/margin_16"
+            android:background="@drawable/divider_bg" />
+
+        <ImageView
+            android:id="@+id/iv_move"
+            android:layout_width="@dimen/item_action_button_size"
+            android:layout_height="@dimen/item_action_button_size"
+            android:background="@drawable/action_button_bg"
+            android:padding="@dimen/padding_4"
+            android:src="@drawable/ic_move"
+            tools:ignore="ContentDescription" />
+
+
+        <ImageView
+            android:id="@+id/iv_delete"
+            android:layout_width="@dimen/item_action_button_size"
+            android:layout_height="@dimen/item_action_button_size"
+            android:layout_marginStart="@dimen/margin_8"
+            android:background="@drawable/delete_button_bg"
+            android:padding="@dimen/padding_4"
+            android:src="@drawable/ic_delete_item"
+            tools:ignore="ContentDescription" />
+
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

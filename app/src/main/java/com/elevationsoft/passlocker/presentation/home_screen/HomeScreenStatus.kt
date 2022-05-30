@@ -7,8 +7,9 @@ data class HomeScreenStatus(
     val selectedScreen: Int = 0,
     val categoryList: List<Category> = ArrayList(),
     val passListStatus: PassListState = PassListState(),
-    val categoryListStatus: CategoryState = CategoryState(categoryList)
-
+    val categoryListStatus: CategoryState = CategoryState(categoryList),
+    val reloadCategory: Boolean = false,
+    val reloadPassList: Boolean = false
 )
 
 data class PassListState(

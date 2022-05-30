@@ -1,6 +1,5 @@
 package com.elevationsoft.passlocker.presentation.home_screen.category
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,8 +9,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.elevationsoft.passlocker.databinding.FragmentCategoryBinding
+import com.elevationsoft.passlocker.domain.models.Category
 import com.elevationsoft.passlocker.presentation.home_screen.HomeScreenStatus
 import com.elevationsoft.passlocker.presentation.home_screen.HomeScreenViewModel
+import com.elevationsoft.passlocker.utils.ContextUtils.toast
 import com.elevationsoft.passlocker.utils.ViewUtils.hide
 import com.elevationsoft.passlocker.utils.ViewUtils.show
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,6 +22,8 @@ class CategoryListFragment : Fragment() {
     private lateinit var binding: FragmentCategoryBinding
     private val homeVm by viewModels<HomeScreenViewModel>()
     private var stateObserver: Observer<HomeScreenStatus>? = null
+    private var categoryListAdapter: CategoryListAdapter? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -57,13 +60,25 @@ class CategoryListFragment : Fragment() {
             binding.rvCategory.hide()
         } else if (state.categoryListStatus.categoryList.isNotEmpty()) {
             binding.layoutEmptyView.root.hide()
-
-            if (binding.rvCategory.adapter != null) {
-                // binding.rvCategory.adapter!!.updateCategoryList(state.categoryListStatus.categoryList)
-            } else {
-                //binding.rvCategory.adapter= CategoryListAS
-            }
             binding.rvCategory.show()
+            if (categoryListAdapter != null) {
+                categoryListAdapter!!.updateCategoryList(state.categoryListStatus.categoryList)
+            } else {
+                categoryListAdapter = CategoryListAdapter(
+                    state.categoryListStatus.categoryList,
+                    object : CategoryListAdapter.CategoryItemClickCallback {
+                        override fun onCategoryClicked(category: Category) {
+                            context?.toast(category.toString())
+                        }
+
+                        override fun onCategoryDeleteClicked(category: Category) {
+                            context?.toast("delete clicked ${category.categoryName}")
+                        }
+
+                    })
+                binding.rvCategory.adapter = categoryListAdapter
+            }
+
 
         }
 

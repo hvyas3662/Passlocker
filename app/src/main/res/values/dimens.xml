@@ -9,12 +9,14 @@
     <dimen name="login_app_icon_size">100dp</dimen>
     <dimen name="finger_print_icon_size">200dp</dimen>
     <dimen name="text_negative_up">-8dp</dimen>
+    <dimen name="item_action_button_size">34dp</dimen>
 
     <dimen name="tool_bar_height">54dp</dimen>
     <dimen name="field_height">48dp</dimen>
     <dimen name="action_button_height">48dp</dimen>
     <dimen name="option_button_height">42dp</dimen>
     <dimen name="small_button_height">35dp</dimen>
+    <dimen name="divider_width">2dp</dimen>
     <dimen name="divider_height">1dp</dimen>
 
     <!--corner radius-->
