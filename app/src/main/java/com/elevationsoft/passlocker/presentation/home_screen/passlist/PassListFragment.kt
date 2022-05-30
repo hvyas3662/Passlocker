@@ -22,7 +22,7 @@ class PassListFragment : Fragment() {
     private val homeVm by viewModels<HomeScreenViewModel>()
     private lateinit var binding: FragmentPassListBinding
     private var stateObserver: Observer<HomeScreenStatus>? = null
-
+    private var isCategoryLoaded = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,52 +42,51 @@ class PassListFragment : Fragment() {
 
 
     private fun updateUi(state: HomeScreenStatus) {
-        if (state.categoryList.isNotEmpty()) {
-
-            val catList = ArrayList<String>()
-            state.categoryList.forEach {
-                catList.add(it.categoryName)
-            }
-            val btnList = ButtonList.with(requireContext())
-                .setLayoutManager(ButtonList.LINEAR_LAYOUT_MANAGER)
-                .setOrientation(ButtonList.ORIENTATION_HORIZONTAL)
-                .setRecyclerViewHeight(48)
-                .setDataList(catList)
-                .setSelectedIndex(0)
-                .setSelectListener(object : ButtonList.ItemListener {
-                    override fun onItemClick(item: String, index: Int) {
-                        requireContext().toast("$item ($index)")
-                    }
-                })
-            binding.llCatTabs.removeAllViews()
-            binding.llCatTabs.addView(btnList.createView())
-
-
-
-            if (state.passListStatus.loading) {
+        if (isCategoryLoaded) {
+            binding.layoutLoadingView.root.hide()
+            binding.llSearch.hide()
+            binding.layoutEmptyView.root.show()
+            binding.layoutEmptyView.tvError.text = getString(R.string.text_no_data)
+            binding.rvPasslist.hide()
+        } else {
+            binding.rvPasslist.hide()
+            if (state.categoryListStatus.loading) {
                 binding.layoutLoadingView.root.show()
                 binding.layoutEmptyView.root.hide()
-                binding.rvPasslist.hide()
-            } else {
-                binding.layoutLoadingView.root.hide()
             }
 
 
             if (state.passListStatus.error.asString(requireContext()).isNotEmpty()) {
+                binding.llSearch.hide()
                 binding.layoutEmptyView.root.show()
                 binding.layoutEmptyView.tvError.text =
                     state.passListStatus.error.asString(requireContext())
-                binding.rvPasslist.hide()
-            } else {
+            } else if (state.categoryList.isNotEmpty()) {
                 binding.layoutEmptyView.root.hide()
-                binding.rvPasslist.show()
+
+                val catList = ArrayList<String>()
+                state.categoryList.forEach {
+                    catList.add(it.categoryName)
+                }
+                val btnList = ButtonList.with(requireContext())
+                    .setLayoutManager(ButtonList.LINEAR_LAYOUT_MANAGER)
+                    .setOrientation(ButtonList.ORIENTATION_HORIZONTAL)
+                    .setRecyclerViewHeight(48)
+                    .setDataList(catList)
+                    .setSelectedIndex(0)
+                    .setSelectListener(object : ButtonList.ItemListener {
+                        override fun onItemClick(item: String, index: Int) {
+                            requireContext().toast("$item ($index)")
+                        }
+                    })
+                binding.llCatTabs.removeAllViews()
+                binding.llCatTabs.addView(btnList.createView())
+                isCategoryLoaded = true
+
+                updateUi(state)
 
             }
-        } else {
-            binding.layoutLoadingView.root.hide()
-            binding.layoutEmptyView.root.show()
-            binding.layoutEmptyView.tvError.text = getString(R.string.text_no_data)
-            binding.rvPasslist.hide()
+
         }
 
     }
