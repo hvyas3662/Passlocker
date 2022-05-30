@@ -15,7 +15,7 @@ import javax.inject.Inject
 class PasslockerApp : Application() {
     @Inject
     lateinit var prefUtils: PrefUtils
-    private var currencyActivity: Activity? = null
+    private var isNotLoginActivity: Boolean = false
     private val appScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     override fun onCreate() {
@@ -37,10 +37,9 @@ class PasslockerApp : Application() {
             }
 
             override fun onActivityResumed(activity: Activity) {
-                currencyActivity = activity
-                checkUpdateSession(activity)
-                if (activity !is LoginActivity) {
-                    if (prefUtils.isLoggedIn()) {
+                isNotLoginActivity = activity !is LoginActivity
+                if (isNotLoginActivity) {
+                    if (prefUtils.isUserRegistered() && prefUtils.isLoggedIn()) {
                         prefUtils.updateLogin(System.currentTimeMillis())
                         Timber.tag(LOGIN_CHECK_TAG).d("Session extended")
                     }
@@ -62,57 +61,51 @@ class PasslockerApp : Application() {
 
     }
 
-    private fun checkUpdateSession(activity: Activity) {
-        if (activity !is LoginActivity) {
-            Timber.tag(LOGIN_CHECK_TAG).d("Login Check Called")
+    private fun activeSessionChecking() {
+        appScope.launch {
+            while (true) {
+                delay(SESSION_RECHECK_TIME)
+                if (prefUtils.isUserRegistered() && prefUtils.isLoggedIn()) {
+                    Timber.tag(LOGIN_CHECK_TAG).d(Thread.currentThread().name)
+                    checkUpdateSession(isNotLoginActivity)
+                }
+            }
+        }
+    }
+
+    private fun checkUpdateSession(isNotLoginActivity: Boolean, isAutoCheck: Boolean = true) {
+        if (isNotLoginActivity) {
+            if (isAutoCheck) {
+                Timber.tag(LOGIN_CHECK_TAG).d("Login Auto Check Called")
+            } else {
+                Timber.tag(LOGIN_CHECK_TAG).d("Login Check Called")
+            }
             val isSessionExpired =
                 (System.currentTimeMillis() - prefUtils.getTimeStamp()) >= SESSION_TTL
             if (prefUtils.getTimeStamp() <= 0) {
                 Timber.tag(LOGIN_CHECK_TAG).d("Already Logout")
-                gotoLoginScreen(activity)
+                gotoLoginScreen()
             } else if (isSessionExpired) {
                 Timber.tag(LOGIN_CHECK_TAG).d("Session expired: Logging out")
                 prefUtils.logout()
-                gotoLoginScreen(activity)
+                gotoLoginScreen()
             } else {
                 Timber.tag(LOGIN_CHECK_TAG).d("Session Not expired: LoggedIn")
             }
         }
     }
 
-    private fun gotoLoginScreen(activity: Activity) {
-        val intent = Intent(activity, LoginActivity::class.java).apply {
+    private fun gotoLoginScreen() {
+        val intent = Intent(applicationContext, LoginActivity::class.java).apply {
             flags =
                 Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
         }
         startActivity(intent)
     }
 
-
-    private fun activeSessionChecking() {
-        appScope.launch {
-            while (true) {
-                delay(SESSION_RECHECK_TIME)
-                if (prefUtils.isUserRegistered() && prefUtils.isLoggedIn()) {
-                    withContext(Dispatchers.Main) {
-                        currencyActivity?.let { act ->
-                            checkUpdateSession(act)
-                        }
-                    }
-                }
-            }
-        }
-
-    }
-
-    override fun onTrimMemory(level: Int) {
-        super.onTrimMemory(level)
-        currencyActivity = null
-    }
-
     companion object {
         const val SESSION_TTL = ((1000L * 60) * 3)
-        const val SESSION_RECHECK_TIME = (1000L * 30)
+        const val SESSION_RECHECK_TIME = (1000L * 10)
         const val LOGIN_CHECK_TAG = "LOGIN_CHECK"
     }
 }
