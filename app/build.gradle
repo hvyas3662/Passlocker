@@ -76,6 +76,8 @@ dependencies {
     //flex layout
     implementation 'com.github.simonebortolin:FlowLayoutManager:1.8.0'
 
+    //room db
+
     //test
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
