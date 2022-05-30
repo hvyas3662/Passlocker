@@ -34,12 +34,13 @@ class CategoryListFragment : Fragment() {
         val llm = LinearLayoutManager(requireContext())
         binding.rvCategory.layoutManager = llm
 
-        homeVm.getCategoryList()
-
         stateObserver = Observer<HomeScreenStatus> {
             updateUi(it)
         }
         homeVm.screenState.observe(requireActivity(), stateObserver!!)
+
+        homeVm.getCategoryList()
+
 
         return binding.root
     }
@@ -78,8 +79,6 @@ class CategoryListFragment : Fragment() {
                     })
                 binding.rvCategory.adapter = categoryListAdapter
             }
-
-
         }
 
 

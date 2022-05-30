@@ -238,15 +238,20 @@ class ButtonList {
 
 
     fun createView(): RecyclerView {
-        if (selectedIndex < 0) {
-            selectedIndex = dataList.indexOf(selectedItem)
+        if (dataList.size == 0) {
+            selectedIndex = 0
+            selectedItem = ""
+        } else {
             if (selectedIndex < 0) {
+                selectedIndex = dataList.indexOf(selectedItem)
+                if (selectedIndex < 0) {
+                    selectedIndex = 0
+                    selectedItem = dataList[selectedIndex]
+                }
+            } else if (dataList.size < selectedIndex) {
                 selectedIndex = 0
                 selectedItem = dataList[selectedIndex]
             }
-        } else if (dataList.size < selectedIndex) {
-            selectedIndex = 0
-            selectedItem = dataList[selectedIndex]
         }
 
 

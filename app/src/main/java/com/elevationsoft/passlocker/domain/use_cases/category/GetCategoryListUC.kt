@@ -12,7 +12,6 @@ class GetCategoryListUC @Inject constructor(private val categoryRepo: CategoryRe
     operator fun invoke(): Flow<DataState<List<Category>>> {
         return flow {
             emit(DataState.Loading(true))
-            delay(1000)
             val catList = categoryRepo.getAllCategory().map {
                 it.toCategory()
             }
