@@ -10,7 +10,7 @@ import androidx.biometric.BiometricPrompt.*
 import androidx.core.content.ContextCompat
 import com.elevationsoft.passlocker.R
 import com.elevationsoft.passlocker.databinding.ActivityLoginBinding
-import com.elevationsoft.passlocker.presentation.home_screen.MainActivity
+import com.elevationsoft.passlocker.presentation.home_screen.HomeActivity
 import com.elevationsoft.passlocker.utils.ContextUtils.toast
 import com.elevationsoft.passlocker.utils.ViewUtils.hide
 import com.elevationsoft.passlocker.utils.ViewUtils.show
@@ -105,7 +105,7 @@ class LoginActivity : AppCompatActivity() {
                         loginVm.registerUser(validatedUserName)
                     }
                     loginVm.login()
-                    val intent = Intent(this@LoginActivity, MainActivity::class.java).apply {
+                    val intent = Intent(this@LoginActivity, HomeActivity::class.java).apply {
                         flags =
                             Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                     }

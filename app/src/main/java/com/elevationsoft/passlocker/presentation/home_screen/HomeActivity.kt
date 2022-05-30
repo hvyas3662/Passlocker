@@ -3,7 +3,7 @@ package com.elevationsoft.passlocker.presentation.home_screen
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.elevationsoft.passlocker.databinding.ActivityMainBinding
+import com.elevationsoft.passlocker.databinding.ActivityHomeBinding
 import com.elevationsoft.passlocker.presentation.add_category.AddCategoryActivity
 import com.elevationsoft.passlocker.presentation.add_credentials.AddCredentialsActivity
 import com.elevationsoft.passlocker.utils.ButtonList
@@ -12,12 +12,12 @@ import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+class HomeActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityHomeBinding
     private var selectedTabIndex = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         selectedTabIndex = binding.ctvBottomTabBar.getSelectedTabIndex()
@@ -28,9 +28,9 @@ class MainActivity : AppCompatActivity() {
 
         binding.ivAdd.setOnClickListener {
             if (selectedTabIndex == 0) {
-                startActivity(Intent(this@MainActivity, AddCredentialsActivity::class.java))
+                startActivity(Intent(this@HomeActivity, AddCredentialsActivity::class.java))
             } else {
-                startActivity(Intent(this@MainActivity, AddCategoryActivity::class.java))
+                startActivity(Intent(this@HomeActivity, AddCategoryActivity::class.java))
             }
         }
         val dataList = ArrayList<String>()
