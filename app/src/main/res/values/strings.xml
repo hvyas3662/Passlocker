@@ -11,6 +11,7 @@
     <string name="text_username">Username</string>
     <string name="text_password">Password</string>
     <string name="text_remark">Remark</string>
+    <string name="text_search">Search…</string>
     <string name="text_common_error">Oops! Something went wrong</string>
     <string name="text_no_data_error">Oops! No Data Found</string>
 

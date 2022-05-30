@@ -16,6 +16,45 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <LinearLayout
+        android:id="@+id/ll_search"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginTop="@dimen/margin_16"
+        android:background="@drawable/search_bg"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/padding_8"
+        android:paddingEnd="@dimen/padding_8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_cat_tabs">
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="@string/text_search"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:padding="@dimen/padding_4"
+            android:textColor="@color/textPrimary"
+            android:textColorHint="@color/textSecondary"
+            android:textSize="@dimen/text_normal" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="@dimen/margin_8"
+            android:layout_marginEnd="@dimen/margin_4"
+            android:background="@color/transparent"
+            android:src="@drawable/ic_search"
+            tools:ignore="ContentDescription" />
+
+    </LinearLayout>
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_passlist"
         android:layout_width="match_parent"
@@ -27,7 +66,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ll_cat_tabs" />
+        app:layout_constraintTop_toBottomOf="@id/ll_search" />
 
     <include
         android:id="@+id/layout_empty_view"
