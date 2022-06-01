@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elevationsoft.passlocker.domain.use_cases.category.GetCategoryListUC
+import com.elevationsoft.passlocker.utils.PrefUtils
 import com.elevationsoft.passlocker.utils.common_classes.DataState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -13,6 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PasslistFragmentViewModel @Inject constructor(
+    private val prefUtils: PrefUtils,
     private val categoryListUC: GetCategoryListUC
 ) : ViewModel() {
 
@@ -43,6 +45,20 @@ class PasslistFragmentViewModel @Inject constructor(
                 }
             }
         }.launchIn(viewModelScope)
+    }
+
+    fun setCategoryLoaded() {
+        _passlistFragState.value = passlistFragState.value?.copy(
+            isCategoryLoaded = true
+        )
+    }
+
+    fun saveSelectedCategoryId(id: Long) {
+        prefUtils.saveSelectedCategory(id)
+    }
+
+    fun getSavedSelectedCategoryId(): Long {
+        return prefUtils.getSavedSelectedCategoryId()
     }
 
 

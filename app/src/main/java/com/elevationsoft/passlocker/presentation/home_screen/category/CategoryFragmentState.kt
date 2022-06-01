@@ -11,6 +11,6 @@ data class CategoryFragmentState(
 ) {
     companion object {
         const val LOADING_TYPE_IN_UI = 0
-        const val LOADING_TYPE_OVER_UI = 2
+        const val LOADING_TYPE_OVER_UI = 1
     }
 }

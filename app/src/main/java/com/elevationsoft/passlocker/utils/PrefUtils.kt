@@ -49,6 +49,15 @@ class PrefUtils constructor(context: Context) {
         return pref.getLong(KEY_LAST_LOGGEDIN_TIMESTAMP, -1L)
     }
 
+    fun saveSelectedCategory(categoryId: Long) {
+        val editor = pref.edit()
+        editor.putLong(KEY_SELECTED_CATEGORY_IN_PASSLIST, categoryId)
+        editor.apply()
+    }
+
+    fun getSavedSelectedCategoryId(): Long {
+        return pref.getLong(KEY_SELECTED_CATEGORY_IN_PASSLIST, -1L)
+    }
 
     companion object {
         private const val PREF_NAME = "passlockerPref"
@@ -56,6 +65,7 @@ class PrefUtils constructor(context: Context) {
         private const val KEY_USER_NAME = "userName"
         private const val KEY_IS_LOGGEDIN = "isLoggedIn"
         private const val KEY_LAST_LOGGEDIN_TIMESTAMP = "timestamp"
+        private const val KEY_SELECTED_CATEGORY_IN_PASSLIST = "selected_category"
     }
 
 }

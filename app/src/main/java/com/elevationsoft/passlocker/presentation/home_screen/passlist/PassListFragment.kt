@@ -11,10 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.elevationsoft.passlocker.R
 import com.elevationsoft.passlocker.databinding.FragmentPassListBinding
+import com.elevationsoft.passlocker.domain.models.Category
 import com.elevationsoft.passlocker.presentation.add_credentials.AddCredentialsActivity
 import com.elevationsoft.passlocker.presentation.home_screen.HomeActivity
 import com.elevationsoft.passlocker.utils.ButtonList
-import com.elevationsoft.passlocker.utils.ContextUtils.toast
 import com.elevationsoft.passlocker.utils.FragmentUtils.startActivityForResult
 import com.elevationsoft.passlocker.utils.ViewUtils.hide
 import com.elevationsoft.passlocker.utils.ViewUtils.show
@@ -64,6 +64,7 @@ class PassListFragment : Fragment(), HomeActivity.OnAddClickedCallBack {
 
     private fun updateUi(state: PassListFragmentState) {
         if (state.isCategoryLoaded) {
+            //replace loader with
             binding.layoutLoadingView.root.hide()
             binding.llSearch.hide()
             binding.layoutEmptyView.root.show()
@@ -83,38 +84,40 @@ class PassListFragment : Fragment(), HomeActivity.OnAddClickedCallBack {
                     state.hasError.asString(requireContext())
             } else if (state.categoryList.isNotEmpty()) {
                 binding.layoutEmptyView.root.hide()
-
-                val catList = ArrayList<String>()
-                state.categoryList.forEach {
-                    catList.add(it.categoryName)
-                }
-                val btnList = ButtonList.with(requireContext())
-                    .setLayoutManager(ButtonList.LINEAR_LAYOUT_MANAGER)
-                    .setOrientation(ButtonList.ORIENTATION_HORIZONTAL)
-                    .setRecyclerViewHeight(48)
-                    .setDataList(catList)
-                    .setSelectedIndex(0)
-                    .setSelectListener(object : ButtonList.ItemListener {
-                        override fun onItemClick(item: String, index: Int) {
-                            requireContext().toast("$item ($index)")
-                        }
-                    })
-                binding.llCatTabs.removeAllViews()
-                binding.llCatTabs.addView(btnList.createView())
-
-
-                binding.layoutLoadingView.root.hide()
-                binding.llSearch.hide()
-                binding.layoutEmptyView.root.show()
-                binding.layoutEmptyView.tvError.text = getString(R.string.text_no_data)
-                binding.rvPasslist.hide()
-
+                setUpCategoryTabs(state.categoryList)
+                passListVm.setCategoryLoaded()
             }
 
         }
 
     }
 
+    private fun setUpCategoryTabs(categoryList: List<Category>) {
+        var selectedCategoryIndex =
+            categoryList.indexOfFirst { it.id == passListVm.getSavedSelectedCategoryId() }
+        if (selectedCategoryIndex < 0) {
+            selectedCategoryIndex = 0
+            passListVm.saveSelectedCategoryId(categoryList[selectedCategoryIndex].id)
+        }
+        val catList = ArrayList<String>()
+        categoryList.forEach {
+            catList.add(it.categoryName)
+        }
+        val btnList = ButtonList.with(requireContext())
+            .setLayoutManager(ButtonList.LINEAR_LAYOUT_MANAGER)
+            .setOrientation(ButtonList.ORIENTATION_HORIZONTAL)
+            .setRecyclerViewHeight(48)
+            .setDataList(catList)
+            .setSelectedIndex(selectedCategoryIndex)
+            .setSelectListener(object : ButtonList.ItemListener {
+                override fun onItemClick(item: String, index: Int) {
+                    passListVm.saveSelectedCategoryId(categoryList[index].id)
+                }
+            })
+        binding.llCatTabs.removeAllViews()
+        binding.llCatTabs.addView(btnList.createView())
+
+    }
 
     companion object {
         @JvmStatic
