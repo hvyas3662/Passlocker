@@ -10,4 +10,6 @@ interface CategoryRepo {
     suspend fun deleteCategory(categoryId: Long)
 
     suspend fun getLastPosition(): Int?
+
+    suspend fun updateCategoryListPosition(catPositionList: List<Long>)
 }

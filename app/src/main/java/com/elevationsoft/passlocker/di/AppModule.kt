@@ -6,10 +6,7 @@ import com.elevationsoft.passlocker.data.local.room.PassLockerDb
 import com.elevationsoft.passlocker.data.local.room.RoomDao
 import com.elevationsoft.passlocker.data.repository.CategoryRepoImpl
 import com.elevationsoft.passlocker.data.repository.CredentialRepoImpl
-import com.elevationsoft.passlocker.domain.use_cases.category.AddUpdateCategoryUC
-import com.elevationsoft.passlocker.domain.use_cases.category.DeleteCategoryUC
-import com.elevationsoft.passlocker.domain.use_cases.category.GetCategoryListUC
-import com.elevationsoft.passlocker.domain.use_cases.category.GetLastCategoryPositionUC
+import com.elevationsoft.passlocker.domain.use_cases.category.*
 import com.elevationsoft.passlocker.utils.PrefUtils
 import dagger.Module
 import dagger.Provides
@@ -72,8 +69,14 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideDeleteCategoryUc(categoryRepo: CategoryRepoImpl): DeleteCategoryUC {
+    fun provideDeleteCategoryUC(categoryRepo: CategoryRepoImpl): DeleteCategoryUC {
         return DeleteCategoryUC(categoryRepo)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUpdateCategoryListPositionUC(categoryRepo: CategoryRepoImpl): UpdateCategoryListPositionUC {
+        return UpdateCategoryListPositionUC(categoryRepo)
     }
 
 }

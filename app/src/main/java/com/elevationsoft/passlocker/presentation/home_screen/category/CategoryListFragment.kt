@@ -68,7 +68,7 @@ class CategoryListFragment : Fragment(), HomeActivity.OnAddClickedCallBack {
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
-                categoryListAdapter?.onItemMove(viewHolder.adapterPosition, target.adapterPosition);
+                categoryListAdapter?.onItemMove(viewHolder.adapterPosition, target.adapterPosition)
                 return true
             }
 
@@ -78,6 +78,17 @@ class CategoryListFragment : Fragment(), HomeActivity.OnAddClickedCallBack {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
 
+            }
+
+            override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
+                super.onSelectedChanged(viewHolder, actionState)
+                when (actionState) {
+                    ItemTouchHelper.ACTION_STATE_IDLE -> {
+                        categoryListAdapter?.let {
+                            categoryVm.updateListPosition(it.getNewCategoryPositionList())
+                        }
+                    }
+                }
             }
         })
 

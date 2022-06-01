@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elevationsoft.passlocker.domain.use_cases.category.DeleteCategoryUC
 import com.elevationsoft.passlocker.domain.use_cases.category.GetCategoryListUC
+import com.elevationsoft.passlocker.domain.use_cases.category.UpdateCategoryListPositionUC
 import com.elevationsoft.passlocker.utils.common_classes.DataState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -15,7 +16,8 @@ import javax.inject.Inject
 @HiltViewModel
 class CategoryFragmentViewModel @Inject constructor(
     private val categoryListUC: GetCategoryListUC,
-    private val deleteCategoryUC: DeleteCategoryUC
+    private val deleteCategoryUC: DeleteCategoryUC,
+    private val updateCategoryListPositionUC: UpdateCategoryListPositionUC
 ) : ViewModel() {
 
     private val _categoryFragState: MutableLiveData<CategoryFragmentState> =
@@ -74,6 +76,10 @@ class CategoryFragmentViewModel @Inject constructor(
                 }
             }
         }.launchIn(viewModelScope)
+    }
+
+    fun updateListPosition(positionList: List<Long>) {
+        updateCategoryListPositionUC(positionList).launchIn(viewModelScope)
     }
 
 }

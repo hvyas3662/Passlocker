@@ -3,7 +3,6 @@ package com.elevationsoft.passlocker.presentation.home_screen.category
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.MotionEvent
-import android.view.View.OnTouchListener
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.elevationsoft.passlocker.databinding.CategoryItemBinding
@@ -77,7 +76,11 @@ class CategoryListAdapter(
         notifyDataSetChanged()
     }
 
-    fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
+    fun onItemMove(fromPosition: Int, toPos: Int): Boolean {
+        var toPosition = toPos
+        if (toPosition == 0) {
+            toPosition = 1
+        }
         if (fromPosition < toPosition) {
             for (i in fromPosition until toPosition) {
                 Collections.swap(categoryList, i, i + 1)
@@ -91,8 +94,14 @@ class CategoryListAdapter(
         return true
     }
 
-    fun getNewPositionList() {
-
+    fun getNewCategoryPositionList(): List<Long> {
+        val resultList: MutableList<Long> = mutableListOf()
+        categoryList.forEach {
+            if (it.id > 0L) {
+                resultList.add(it.id)
+            }
+        }
+        return resultList
     }
 
     interface CategoryItemClickCallback {

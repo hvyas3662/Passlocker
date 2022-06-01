@@ -27,6 +27,9 @@ interface RoomDao {
     @Query("SELECT MAX(position) FROM category")
     suspend fun getLastPosition(): Int?
 
+    @Query("UPDATE category SET position = :index WHERE id = :id")
+    suspend fun updatePositionViaId(id: Long, index: Int)
+
 
     //Credential
 
@@ -64,6 +67,5 @@ interface RoomDao {
 
     @Query("DELETE FROM credential WHERE id = :credentialId")
     suspend fun deleteCredential(credentialId: Long)
-
 
 }

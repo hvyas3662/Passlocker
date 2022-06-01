@@ -23,4 +23,10 @@ class CategoryRepoImpl @Inject constructor(private val roomDao: RoomDao) : Categ
         return roomDao.getLastPosition()
     }
 
+    override suspend fun updateCategoryListPosition(catPositionList: List<Long>) {
+        catPositionList.forEachIndexed { index, id ->
+            roomDao.updatePositionViaId(id, index)
+        }
+    }
+
 }
