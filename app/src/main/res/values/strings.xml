@@ -38,6 +38,7 @@
     <string name="text_position">Position</string>
     <string name="text_category_error">Please enter valid category name</string>
     <string name="text_position_error">Please enter valid position</string>
+    <string name="text_category_added">Category added successfully</string>
 
     <!--Add credentials-->
     <string name="text_add_credentials">Add Credentials</string>

@@ -19,4 +19,8 @@ class CategoryRepoImpl @Inject constructor(private val roomDao: RoomDao) : Categ
         roomDao.deleteAllCredentialCategoryVise(categoryId)
     }
 
+    override suspend fun getLastPosition(): Int? {
+        return roomDao.getLastPosition()
+    }
+
 }

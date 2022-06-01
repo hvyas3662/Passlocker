@@ -64,30 +64,6 @@
                 android:textSize="@dimen/text_normal"
                 tools:ignore="LabelFor" />
 
-
-            <TextView
-                android:id="@+id/tv_label_position"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_16"
-                android:fontFamily="@font/avenir_next_medium"
-                android:text="@string/text_position"
-                android:textColor="@color/textSecondary"
-                android:textSize="@dimen/text_small" />
-
-            <EditText
-                android:id="@+id/et_position"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:importantForAutofill="no"
-                android:inputType="number"
-                android:layout_marginTop="@dimen/margin_2"
-                android:maxLength="5"
-                android:padding="@dimen/padding_16"
-                android:textColor="@color/textPrimary"
-                android:textSize="@dimen/text_normal"
-                tools:ignore="LabelFor" />
-
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

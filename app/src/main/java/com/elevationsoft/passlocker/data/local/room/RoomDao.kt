@@ -24,6 +24,10 @@ interface RoomDao {
     @Query("DELETE FROM credential WHERE categoryId = :catId")
     suspend fun deleteAllCredentialCategoryVise(catId: Long)
 
+    @Query("SELECT MAX(position) FROM category")
+    suspend fun getLastPosition(): Int?
+
+
     //Credential
 
     //fav vise

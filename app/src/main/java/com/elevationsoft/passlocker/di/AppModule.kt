@@ -8,6 +8,7 @@ import com.elevationsoft.passlocker.data.repository.CategoryRepoImpl
 import com.elevationsoft.passlocker.data.repository.CredentialRepoImpl
 import com.elevationsoft.passlocker.domain.use_cases.category.AddUpdateCategoryUC
 import com.elevationsoft.passlocker.domain.use_cases.category.GetCategoryListUC
+import com.elevationsoft.passlocker.domain.use_cases.category.GetLastCategoryPositionUC
 import com.elevationsoft.passlocker.utils.PrefUtils
 import dagger.Module
 import dagger.Provides
@@ -60,6 +61,12 @@ object AppModule {
     @Singleton
     fun provideAddCategoryUC(categoryRepo: CategoryRepoImpl): AddUpdateCategoryUC {
         return AddUpdateCategoryUC(categoryRepo)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetLastCategoryPositionUC(categoryRepo: CategoryRepoImpl): GetLastCategoryPositionUC {
+        return GetLastCategoryPositionUC(categoryRepo)
     }
 
 }

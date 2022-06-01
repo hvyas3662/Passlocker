@@ -61,6 +61,8 @@ public class CustomLoader {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            alertDialog = null;
         }
     }
 

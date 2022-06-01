@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elevationsoft.passlocker.domain.models.Category
 import com.elevationsoft.passlocker.domain.use_cases.category.AddUpdateCategoryUC
+import com.elevationsoft.passlocker.domain.use_cases.category.GetLastCategoryPositionUC
 import com.elevationsoft.passlocker.utils.common_classes.DataState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -14,7 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddCategoryViewModel @Inject constructor(
-    private val addUpdateCategoryUC: AddUpdateCategoryUC
+    private val addUpdateCategoryUC: AddUpdateCategoryUC,
+    private val getLastCategoryPositionUC: GetLastCategoryPositionUC
 ) : ViewModel() {
 
     private val _screenState: MutableLiveData<AddCategoryScreenState> =
@@ -29,13 +31,27 @@ class AddCategoryViewModel @Inject constructor(
         return catName.trim()
     }
 
-    fun validateCategoryPosition(position: String): Boolean {
-        return position.trim().isNotEmpty()
+
+    fun getLastCategoryPosition() {
+        getLastCategoryPositionUC().onEach {
+            when (it) {
+                is DataState.Loading -> {
+                    _screenState.value = screenState.value!!.copy(isLoading = it.isLoading)
+                }
+
+                is DataState.Success -> {
+                    _screenState.value =
+                        screenState.value!!.copy(nextCategoryPosition = (it.data!! + 1))
+                }
+
+                is DataState.Failed -> {
+                    _screenState.value = screenState.value!!.copy(error = it.errorMsg)
+                }
+            }
+
+        }.launchIn(viewModelScope)
     }
 
-    fun getValidCategoryPosition(position: String): Int {
-        return position.trim().toInt()
-    }
 
     fun insertUpdateCategory(id: Long, catName: String, position: Int) {
         addUpdateCategoryUC(Category(id, catName, position)).onEach {

@@ -8,4 +8,6 @@ interface CategoryRepo {
     suspend fun insertUpdateCategory(cat: CategoryDto)
 
     suspend fun deleteCategory(categoryId: Long)
+
+    suspend fun getLastPosition(): Int?
 }

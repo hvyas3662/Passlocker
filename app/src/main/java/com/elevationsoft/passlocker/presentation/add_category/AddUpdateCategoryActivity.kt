@@ -15,6 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class AddUpdateCategoryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddCategoryBinding
     private val vm by viewModels<AddCategoryViewModel>()
+    private var nextPos: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +25,8 @@ class AddUpdateCategoryActivity : AppCompatActivity() {
         initToolBar()
 
         vm.screenState.observe(this) {
+            nextPos = it.nextCategoryPosition
+
             if (it.isLoading) {
                 CustomLoader.getInstance().showLoader(this)
             } else {
@@ -34,21 +37,20 @@ class AddUpdateCategoryActivity : AppCompatActivity() {
                 toast(it.error.asString(this@AddUpdateCategoryActivity), Toast.LENGTH_LONG)
             } else if (it.isCategoryAdded) {
                 //set result and go back
+                toast(getString(R.string.text_category_added), Toast.LENGTH_LONG)
                 finish()
             }
         }
 
+        vm.getLastCategoryPosition()
+
         binding.btnSubmit.setOnClickListener {
             val catName = binding.etCatName.text.toString()
-            val position = binding.etPosition.text.toString()
             if (!vm.validateCategoryName(catName)) {
                 toast(getString(R.string.text_category_error))
-            } else if (!vm.validateCategoryPosition(position)) {
-                toast(getString(R.string.text_position_error))
             } else {
                 val validCatName = vm.getValidCategoryName(catName)
-                val validCatPos = vm.getValidCategoryPosition(position)
-                vm.insertUpdateCategory(0L, validCatName, validCatPos)
+                vm.insertUpdateCategory(0L, validCatName, nextPos)
             }
         }
 
