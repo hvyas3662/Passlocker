@@ -6,8 +6,7 @@ import com.elevationsoft.passlocker.data.local.room.PassLockerDb
 import com.elevationsoft.passlocker.data.local.room.RoomDao
 import com.elevationsoft.passlocker.data.repository.CategoryRepoImpl
 import com.elevationsoft.passlocker.data.repository.CredentialRepoImpl
-import com.elevationsoft.passlocker.domain.models.Category
-import com.elevationsoft.passlocker.domain.repository.CategoryRepo
+import com.elevationsoft.passlocker.domain.use_cases.category.AddUpdateCategoryUC
 import com.elevationsoft.passlocker.domain.use_cases.category.GetCategoryListUC
 import com.elevationsoft.passlocker.utils.PrefUtils
 import dagger.Module
@@ -50,10 +49,17 @@ object AppModule {
         return CredentialRepoImpl(roomDao)
     }
 
+    //category use case providers
     @Provides
     @Singleton
     fun provideGetCategoryListUC(categoryRepo: CategoryRepoImpl): GetCategoryListUC {
         return GetCategoryListUC(categoryRepo)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAddCategoryUC(categoryRepo: CategoryRepoImpl): AddUpdateCategoryUC {
+        return AddUpdateCategoryUC(categoryRepo)
     }
 
 }

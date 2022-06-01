@@ -3,7 +3,7 @@ package com.elevationsoft.passlocker.presentation.home_screen
 import com.elevationsoft.passlocker.domain.models.Category
 import com.elevationsoft.passlocker.utils.common_classes.UiText
 
-data class HomeScreenStatus(
+data class HomeScreenState(
     val selectedScreen: Int = 0,
     val categoryList: List<Category> = ArrayList(),
     val passListStatus: PassListState = PassListState(),

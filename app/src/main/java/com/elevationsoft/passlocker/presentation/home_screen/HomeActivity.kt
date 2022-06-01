@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.elevationsoft.passlocker.databinding.ActivityHomeBinding
-import com.elevationsoft.passlocker.presentation.add_category.AddCategoryActivity
+import com.elevationsoft.passlocker.presentation.add_category.AddUpdateCategoryActivity
 import com.elevationsoft.passlocker.presentation.add_credentials.AddCredentialsActivity
 import com.elevationsoft.passlocker.presentation.home_screen.category.CategoryListFragment
 import com.elevationsoft.passlocker.presentation.home_screen.passlist.PassListFragment
@@ -35,13 +35,13 @@ class HomeActivity : AppCompatActivity() {
             if (selectedScreen == PASSLIST) {
                 startActivity(Intent(this@HomeActivity, AddCredentialsActivity::class.java))
             } else {
-                startActivity(Intent(this@HomeActivity, AddCategoryActivity::class.java))
+                startActivity(Intent(this@HomeActivity, AddUpdateCategoryActivity::class.java))
             }
         }
 
     }
 
-    private fun updateUi(status: HomeScreenStatus) {
+    private fun updateUi(status: HomeScreenState) {
         selectedScreen = status.selectedScreen
         updateSelectedScreen(selectedScreen)
     }

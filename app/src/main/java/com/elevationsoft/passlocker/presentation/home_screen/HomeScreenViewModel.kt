@@ -15,9 +15,9 @@ import javax.inject.Inject
 class HomeScreenViewModel @Inject constructor(private val categoryListUC: GetCategoryListUC) :
     ViewModel() {
 
-    private val _screenState: MutableLiveData<HomeScreenStatus> =
-        MutableLiveData(HomeScreenStatus())
-    val screenState: LiveData<HomeScreenStatus> = _screenState
+    private val _screenState: MutableLiveData<HomeScreenState> =
+        MutableLiveData(HomeScreenState())
+    val screenState: LiveData<HomeScreenState> = _screenState
 
     fun updateSelectedScreen(selectedScreen: Int) {
         _screenState.value = screenState.value?.copy(selectedScreen = selectedScreen)

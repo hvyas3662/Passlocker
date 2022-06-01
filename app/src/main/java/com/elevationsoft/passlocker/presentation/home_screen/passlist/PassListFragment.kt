@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.elevationsoft.passlocker.R
 import com.elevationsoft.passlocker.databinding.FragmentPassListBinding
-import com.elevationsoft.passlocker.presentation.home_screen.HomeScreenStatus
+import com.elevationsoft.passlocker.presentation.home_screen.HomeScreenState
 import com.elevationsoft.passlocker.presentation.home_screen.HomeScreenViewModel
 import com.elevationsoft.passlocker.utils.ButtonList
 import com.elevationsoft.passlocker.utils.ContextUtils.toast
@@ -21,7 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class PassListFragment : Fragment() {
     private val homeVm by viewModels<HomeScreenViewModel>()
     private lateinit var binding: FragmentPassListBinding
-    private var stateObserver: Observer<HomeScreenStatus>? = null
+    private var stateObserver: Observer<HomeScreenState>? = null
     private var isCategoryLoaded = false
 
     override fun onCreateView(
@@ -30,7 +30,7 @@ class PassListFragment : Fragment() {
     ): View {
         binding = FragmentPassListBinding.inflate(layoutInflater, container, false)
 
-        stateObserver = Observer<HomeScreenStatus> {
+        stateObserver = Observer<HomeScreenState> {
             updateUi(it)
         }
         homeVm.screenState.observe(requireActivity(), stateObserver!!)
@@ -41,7 +41,7 @@ class PassListFragment : Fragment() {
     }
 
 
-    private fun updateUi(state: HomeScreenStatus) {
+    private fun updateUi(state: HomeScreenState) {
         if (isCategoryLoaded) {
             binding.layoutLoadingView.root.hide()
             binding.llSearch.hide()

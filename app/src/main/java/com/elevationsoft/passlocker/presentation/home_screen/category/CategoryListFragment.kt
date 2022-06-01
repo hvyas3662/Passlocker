@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.elevationsoft.passlocker.databinding.FragmentCategoryBinding
 import com.elevationsoft.passlocker.domain.models.Category
-import com.elevationsoft.passlocker.presentation.home_screen.HomeScreenStatus
+import com.elevationsoft.passlocker.presentation.home_screen.HomeScreenState
 import com.elevationsoft.passlocker.presentation.home_screen.HomeScreenViewModel
 import com.elevationsoft.passlocker.utils.ContextUtils.toast
 import com.elevationsoft.passlocker.utils.ViewUtils.hide
@@ -21,7 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class CategoryListFragment : Fragment() {
     private lateinit var binding: FragmentCategoryBinding
     private val homeVm by viewModels<HomeScreenViewModel>()
-    private var stateObserver: Observer<HomeScreenStatus>? = null
+    private var stateObserver: Observer<HomeScreenState>? = null
     private var categoryListAdapter: CategoryListAdapter? = null
 
     override fun onCreateView(
@@ -34,7 +34,7 @@ class CategoryListFragment : Fragment() {
         val llm = LinearLayoutManager(requireContext())
         binding.rvCategory.layoutManager = llm
 
-        stateObserver = Observer<HomeScreenStatus> {
+        stateObserver = Observer<HomeScreenState> {
             updateUi(it)
         }
         homeVm.screenState.observe(requireActivity(), stateObserver!!)
@@ -45,7 +45,7 @@ class CategoryListFragment : Fragment() {
         return binding.root
     }
 
-    private fun updateUi(state: HomeScreenStatus) {
+    private fun updateUi(state: HomeScreenState) {
         if (state.categoryListStatus.loading) {
             binding.layoutLoadingView.root.show()
             binding.layoutEmptyView.root.hide()
