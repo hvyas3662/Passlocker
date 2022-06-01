@@ -36,6 +36,8 @@
     <string name="text_add_category">Add Category</string>
     <string name="text_category_name">Category Name</string>
     <string name="text_position">Position</string>
+    <string name="text_category_error">Please enter valid category name</string>
+    <string name="text_position_error">Please enter valid position</string>
 
     <!--Add credentials-->
     <string name="text_add_credentials">Add Credentials</string>
