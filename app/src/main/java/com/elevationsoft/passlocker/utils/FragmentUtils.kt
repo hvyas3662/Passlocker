@@ -4,11 +4,11 @@ import android.content.Intent
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 
-object ActivityUtils {
+object FragmentUtils {
 
-    fun AppCompatActivity.startActivityForResult(onActivityResult: (ActivityResult?) -> Unit): ActivityResultLauncher<Intent> {
+    fun Fragment.startActivityForResult(onActivityResult: (ActivityResult?) -> Unit): ActivityResultLauncher<Intent> {
         return this.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             onActivityResult(result)
         }

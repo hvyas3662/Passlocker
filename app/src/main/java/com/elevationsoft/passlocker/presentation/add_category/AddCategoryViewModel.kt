@@ -45,7 +45,7 @@ class AddCategoryViewModel @Inject constructor(
                 }
 
                 is DataState.Failed -> {
-                    _screenState.value = screenState.value!!.copy(error = it.errorMsg)
+                    _screenState.value = screenState.value!!.copy(hasError = it.errorMsg)
                 }
             }
 
@@ -65,7 +65,7 @@ class AddCategoryViewModel @Inject constructor(
                 }
 
                 is DataState.Failed -> {
-                    _screenState.value = screenState.value!!.copy(error = it.errorMsg)
+                    _screenState.value = screenState.value!!.copy(hasError = it.errorMsg)
                 }
             }
 

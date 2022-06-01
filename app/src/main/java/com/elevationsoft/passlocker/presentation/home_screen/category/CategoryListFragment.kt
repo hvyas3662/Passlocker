@@ -6,12 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.elevationsoft.passlocker.databinding.FragmentCategoryBinding
 import com.elevationsoft.passlocker.domain.models.Category
 import com.elevationsoft.passlocker.presentation.home_screen.HomeScreenState
-import com.elevationsoft.passlocker.presentation.home_screen.HomeScreenViewModel
 import com.elevationsoft.passlocker.utils.ContextUtils.toast
 import com.elevationsoft.passlocker.utils.ViewUtils.hide
 import com.elevationsoft.passlocker.utils.ViewUtils.show
@@ -20,8 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class CategoryListFragment : Fragment() {
     private lateinit var binding: FragmentCategoryBinding
-    private val homeVm by viewModels<HomeScreenViewModel>()
-    private var stateObserver: Observer<HomeScreenState>? = null
+    private val categoryVm by viewModels<CategoryFragmentViewModel>()
     private var categoryListAdapter: CategoryListAdapter? = null
 
     override fun onCreateView(
@@ -34,19 +31,20 @@ class CategoryListFragment : Fragment() {
         val llm = LinearLayoutManager(requireContext())
         binding.rvCategory.layoutManager = llm
 
-        stateObserver = Observer<HomeScreenState> {
+
+        categoryVm.categoryFragState.removeObservers(viewLifecycleOwner)
+        categoryVm.categoryFragState.observe(viewLifecycleOwner) {
             updateUi(it)
         }
-        homeVm.screenState.observe(requireActivity(), stateObserver!!)
 
-        homeVm.getCategoryList()
+        categoryVm.getCategoryList()
 
 
         return binding.root
     }
 
-    private fun updateUi(state: HomeScreenState) {
-        if (state.categoryListStatus.loading) {
+    private fun updateUi(state: CategoryFragmentState) {
+        if (state.isLoading) {
             binding.layoutLoadingView.root.show()
             binding.layoutEmptyView.root.hide()
             binding.rvCategory.hide()
@@ -54,19 +52,19 @@ class CategoryListFragment : Fragment() {
             binding.layoutLoadingView.root.hide()
         }
 
-        if (state.categoryListStatus.error.asString(requireContext()).isNotEmpty()) {
+        if (state.hasError.asString(requireContext()).isNotEmpty()) {
             binding.layoutEmptyView.root.show()
             binding.layoutEmptyView.tvError.text =
-                state.categoryListStatus.error.asString(requireContext())
+                state.hasError.asString(requireContext())
             binding.rvCategory.hide()
-        } else if (state.categoryListStatus.categoryList.isNotEmpty()) {
+        } else if (state.categoryList.isNotEmpty()) {
             binding.layoutEmptyView.root.hide()
             binding.rvCategory.show()
             if (categoryListAdapter != null) {
-                categoryListAdapter!!.updateCategoryList(state.categoryListStatus.categoryList)
+                categoryListAdapter!!.updateCategoryList(state.categoryList)
             } else {
                 categoryListAdapter = CategoryListAdapter(
-                    state.categoryListStatus.categoryList,
+                    state.categoryList,
                     object : CategoryListAdapter.CategoryItemClickCallback {
                         override fun onCategoryClicked(category: Category) {
                             context?.toast(category.toString())
@@ -80,19 +78,12 @@ class CategoryListFragment : Fragment() {
                 binding.rvCategory.adapter = categoryListAdapter
             }
         }
-
-
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        stateObserver?.let {
-            homeVm.screenState.removeObserver(it)
-        }
-    }
 
     companion object {
         @JvmStatic
         fun newInstance() = CategoryListFragment()
     }
+
 }

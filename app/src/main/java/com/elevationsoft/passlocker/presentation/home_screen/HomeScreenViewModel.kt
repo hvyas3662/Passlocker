@@ -3,58 +3,23 @@ package com.elevationsoft.passlocker.presentation.home_screen
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.elevationsoft.passlocker.domain.use_cases.category.GetCategoryListUC
-import com.elevationsoft.passlocker.utils.common_classes.DataState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeScreenViewModel @Inject constructor(private val categoryListUC: GetCategoryListUC) :
-    ViewModel() {
+class HomeScreenViewModel @Inject constructor() : ViewModel() {
 
-    private val _screenState: MutableLiveData<HomeScreenState> =
+    private val _homeScreenState: MutableLiveData<HomeScreenState> =
         MutableLiveData(HomeScreenState())
-    val screenState: LiveData<HomeScreenState> = _screenState
+    val homeScreenState: LiveData<HomeScreenState> = _homeScreenState
+
 
     fun updateSelectedScreen(selectedScreen: Int) {
-        _screenState.value = screenState.value?.copy(selectedScreen = selectedScreen)
+        _homeScreenState.value = homeScreenState.value?.copy(selectedScreen = selectedScreen)
     }
 
-    fun getCategoryList() {
-        categoryListUC().onEach {
-            when (it) {
-                is DataState.Failed -> {
-                    _screenState.value = screenState.value?.copy(
-                        categoryListStatus = screenState.value?.categoryListStatus!!.copy(
-                            error = it.errorMsg,
-                        )
-                    )
-
-
-                }
-                is DataState.Loading -> {
-                    _screenState.value = screenState.value?.copy(
-                        categoryListStatus = screenState.value?.categoryListStatus!!.copy(
-                            loading = it.isLoading
-                        )
-                    )
-                }
-                is DataState.Success -> {
-                    _screenState.value = it.data?.let { list ->
-                        screenState.value?.copy(
-                            categoryList = list,
-                            categoryListStatus = screenState.value?.categoryListStatus!!.copy(
-                                categoryList = list
-                            )
-                        )
-                    }
-                }
-            }
-
-        }.launchIn(viewModelScope)
+    companion object {
+        const val PASSLIST_TAB_INDEX = 0
+        const val CATEGORY_TAB_INDEX = 1
     }
-
 }

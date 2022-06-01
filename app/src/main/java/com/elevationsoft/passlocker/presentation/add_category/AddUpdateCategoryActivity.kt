@@ -1,5 +1,7 @@
 package com.elevationsoft.passlocker.presentation.add_category
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
@@ -33,10 +35,12 @@ class AddUpdateCategoryActivity : AppCompatActivity() {
                 CustomLoader.getInstance().hideLoader(this)
             }
 
-            if (it.error.asString(this@AddUpdateCategoryActivity).isNotEmpty()) {
-                toast(it.error.asString(this@AddUpdateCategoryActivity), Toast.LENGTH_LONG)
+            if (it.hasError.asString(this@AddUpdateCategoryActivity).isNotEmpty()) {
+                toast(it.hasError.asString(this@AddUpdateCategoryActivity), Toast.LENGTH_LONG)
             } else if (it.isCategoryAdded) {
-                //set result and go back
+                val resultIntent = Intent()
+                resultIntent.putExtra("data", true)
+                setResult(Activity.RESULT_OK, resultIntent)
                 toast(getString(R.string.text_category_added), Toast.LENGTH_LONG)
                 finish()
             }
