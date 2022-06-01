@@ -9,7 +9,11 @@ import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.ItemTouchHelper.DOWN
+import androidx.recyclerview.widget.ItemTouchHelper.UP
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.elevationsoft.easydialog.EasyDialog
 import com.elevationsoft.passlocker.R
 import com.elevationsoft.passlocker.databinding.FragmentCategoryBinding
@@ -29,6 +33,7 @@ class CategoryListFragment : Fragment(), HomeActivity.OnAddClickedCallBack {
     private val categoryVm by viewModels<CategoryFragmentViewModel>()
     private var categoryListAdapter: CategoryListAdapter? = null
     private lateinit var openAddUpdateCategoryActivity: ActivityResultLauncher<Intent>
+    private lateinit var rvItemDragHelper: ItemTouchHelper
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,6 +61,28 @@ class CategoryListFragment : Fragment(), HomeActivity.OnAddClickedCallBack {
         binding.rvCategory.setHasFixedSize(true)
         val llm = LinearLayoutManager(requireContext())
         binding.rvCategory.layoutManager = llm
+
+        rvItemDragHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(UP + DOWN, 0) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                categoryListAdapter?.onItemMove(viewHolder.adapterPosition, target.adapterPosition);
+                return true
+            }
+
+            override fun isLongPressDragEnabled(): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+
+            }
+        })
+
+        rvItemDragHelper.attachToRecyclerView(binding.rvCategory)
+
 
         categoryVm.categoryFragState.removeObservers(viewLifecycleOwner)
         categoryVm.categoryFragState.observe(viewLifecycleOwner) {
@@ -113,6 +140,12 @@ class CategoryListFragment : Fragment(), HomeActivity.OnAddClickedCallBack {
 
                         override fun onCategoryDeleteClicked(category: Category) {
                             openCategoryDeleteDialog(category)
+                        }
+
+                    },
+                    object : CategoryListAdapter.OnStartDragListener {
+                        override fun onStartDrag(viewHolder: RecyclerView.ViewHolder) {
+                            rvItemDragHelper.startDrag(viewHolder)
                         }
 
                     })
