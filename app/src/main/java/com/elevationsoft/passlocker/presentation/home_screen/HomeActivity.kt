@@ -32,7 +32,7 @@ class HomeActivity : AppCompatActivity() {
         }
 
         binding.ivAdd.setOnClickListener {
-            //todo add interface
+            addClickedCallBack?.onAddClicked()
         }
 
     }
@@ -62,5 +62,19 @@ class HomeActivity : AppCompatActivity() {
             .commit()
     }
 
+
+    companion object {
+        var addClickedCallBack: OnAddClickedCallBack? = null
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        addClickedCallBack = null
+    }
+
+    interface OnAddClickedCallBack {
+        fun onAddClicked()
+    }
 
 }

@@ -38,9 +38,8 @@ class AddUpdateCategoryActivity : AppCompatActivity() {
             if (it.hasError.asString(this@AddUpdateCategoryActivity).isNotEmpty()) {
                 toast(it.hasError.asString(this@AddUpdateCategoryActivity), Toast.LENGTH_LONG)
             } else if (it.isCategoryAdded) {
-                val resultIntent = Intent()
-                resultIntent.putExtra("data", true)
-                setResult(Activity.RESULT_OK, resultIntent)
+                CustomLoader.getInstance().hideLoader(this)
+                setResult(Activity.RESULT_OK, Intent())
                 toast(getString(R.string.text_category_added), Toast.LENGTH_LONG)
                 finish()
             }

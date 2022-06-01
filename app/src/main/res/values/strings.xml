@@ -14,6 +14,8 @@
     <string name="text_search">Search…</string>
     <string name="text_common_error">Oops! Something went wrong</string>
     <string name="text_no_data_error">Oops! No Data Found</string>
+    <string name="text_yes">Yes</string>
+    <string name="text_no">No</string>
 
     <!-- home screen -->
     <string name="text_welcome">Welcome!</string>
@@ -22,6 +24,9 @@
     <string name="text_no_data">No Data Found</string>
     <string name="text_loading">Loading…</string>
     <string name="text_manage_cat">Manage Categories</string>
+    <string name="text_category_delete_title">Delete %s Category?</string>
+    <string name="text_category_delete_message">This will delete all Credential of %s Category.</string>
+
 
     <!-- login screen -->
     <string name="text_enter_name">Please enter your name</string>

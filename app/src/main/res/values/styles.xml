@@ -122,15 +122,12 @@
         <item name="cardUseCompatPadding">false</item>
     </style>
 
-    <style name="Passlocker.Dialog" parent="Theme.MaterialComponents.Light.Dialog">
-        <item name="android:background">@color/surfaceColorLight</item>
-        <item name="background">@color/surfaceColorLight</item>
-        <item name="android:backgroundTint">@color/surfaceColorLight</item>
-        <item name="backgroundColor">@color/surfaceColorLight</item>
-        <item name="android:popupBackground">@color/surfaceColorLight</item>
-        <item name="popupMenuBackground">@color/surfaceColorLight</item>
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerRadius">@dimen/corner_radius_12</item>
+    <style name="Passlocker.Dialog" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="background">@color/transparent</item>
+        <item name="backgroundColor">@color/transparent</item>
+        <item name="android:background">@color/transparent</item>
     </style>
 
 

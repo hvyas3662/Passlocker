@@ -7,6 +7,7 @@ import com.elevationsoft.passlocker.data.local.room.RoomDao
 import com.elevationsoft.passlocker.data.repository.CategoryRepoImpl
 import com.elevationsoft.passlocker.data.repository.CredentialRepoImpl
 import com.elevationsoft.passlocker.domain.use_cases.category.AddUpdateCategoryUC
+import com.elevationsoft.passlocker.domain.use_cases.category.DeleteCategoryUC
 import com.elevationsoft.passlocker.domain.use_cases.category.GetCategoryListUC
 import com.elevationsoft.passlocker.domain.use_cases.category.GetLastCategoryPositionUC
 import com.elevationsoft.passlocker.utils.PrefUtils
@@ -67,6 +68,12 @@ object AppModule {
     @Singleton
     fun provideGetLastCategoryPositionUC(categoryRepo: CategoryRepoImpl): GetLastCategoryPositionUC {
         return GetLastCategoryPositionUC(categoryRepo)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDeleteCategoryUc(categoryRepo: CategoryRepoImpl): DeleteCategoryUC {
+        return DeleteCategoryUC(categoryRepo)
     }
 
 }

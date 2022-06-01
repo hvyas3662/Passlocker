@@ -33,6 +33,5 @@
 
         <item name="editTextStyle">@style/Passlocker.Edittext</item>
         <item name="cardViewStyle">@style/Passlocker.CardView</item>
-        <item name="dialogTheme">@style/Passlocker.Dialog</item>
     </style>
 </resources>

@@ -14,7 +14,6 @@ class AddUpdateCategoryUC @Inject constructor(private val categoryRepo: Category
     operator fun invoke(category: Category): Flow<DataState<Boolean>> {
         return flow {
             emit(DataState.Loading(true))
-            delay(500)
             categoryRepo.insertUpdateCategory(category.toCategoryDto())
             emit(DataState.Success(true))
             emit(DataState.Loading(false))

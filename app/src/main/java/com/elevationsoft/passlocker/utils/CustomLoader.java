@@ -1,6 +1,8 @@
 package com.elevationsoft.passlocker.utils;
 
 import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.widget.TextView;
 
@@ -29,10 +31,10 @@ public class CustomLoader {
     public void showLoader(Activity act) {
         if (act != null) {
             hideLoader(act);
-            View v = act.getLayoutInflater().inflate(R.layout.progress_alert_dialog, null);
-            AlertDialog.Builder builder = new AlertDialog.Builder(act).setCancelable(false).setView(v);
+            View v = act.getLayoutInflater().inflate(R.layout.layout_loader_dialog, null);
+            AlertDialog.Builder builder = new AlertDialog.Builder(act, R.style.Passlocker_Dialog).setCancelable(false).setView(v);
             alertDialog = builder.create();
-            alertDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             alertDialog.show();
         }
     }
@@ -40,7 +42,7 @@ public class CustomLoader {
     public void showLoader(Activity act, String message) {
         if (act != null) {
             hideLoader(act);
-            View v = act.getLayoutInflater().inflate(R.layout.loader_dialog, null);
+            View v = act.getLayoutInflater().inflate(R.layout.layout_msg_loader_dialog, null);
             AlertDialog.Builder builder = new AlertDialog.Builder(act).setCancelable(false).setView(v);
             alertDialog = builder.create();
             alertDialog.show();
