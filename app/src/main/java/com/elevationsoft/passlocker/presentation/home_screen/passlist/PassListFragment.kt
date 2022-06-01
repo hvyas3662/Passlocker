@@ -25,6 +25,7 @@ class PassListFragment : Fragment(), HomeActivity.OnAddClickedCallBack {
     private val passListVm by viewModels<PasslistFragmentViewModel>()
     private lateinit var binding: FragmentPassListBinding
     private lateinit var openAddCredentialActivity: ActivityResultLauncher<Intent>
+    private var selectedCategoryId = -1L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -99,6 +100,7 @@ class PassListFragment : Fragment(), HomeActivity.OnAddClickedCallBack {
             selectedCategoryIndex = 0
             passListVm.saveSelectedCategoryId(categoryList[selectedCategoryIndex].id)
         }
+        selectedCategoryId = categoryList[selectedCategoryIndex].id
         val catList = ArrayList<String>()
         categoryList.forEach {
             catList.add(it.categoryName)
@@ -111,6 +113,7 @@ class PassListFragment : Fragment(), HomeActivity.OnAddClickedCallBack {
             .setSelectedIndex(selectedCategoryIndex)
             .setSelectListener(object : ButtonList.ItemListener {
                 override fun onItemClick(item: String, index: Int) {
+                    selectedCategoryId = categoryList[index].id
                     passListVm.saveSelectedCategoryId(categoryList[index].id)
                 }
             })
