@@ -72,5 +72,9 @@ class AddCategoryViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
+    fun setEditMode(parcelableExtra: Category) {
+
+    }
+
 
 }

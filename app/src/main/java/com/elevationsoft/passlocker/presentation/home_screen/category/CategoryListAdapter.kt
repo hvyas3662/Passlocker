@@ -32,7 +32,9 @@ class CategoryListAdapter(
 
         init {
             binding.cvMain.setOnClickListener {
-                callback.onCategoryClicked(categoryList[adapterPosition])
+                if (categoryList[adapterPosition].id != -1L) {
+                    callback.onCategoryClicked(categoryList[adapterPosition])
+                }
             }
 
             binding.ivDelete.setOnClickListener {
@@ -43,16 +45,6 @@ class CategoryListAdapter(
         fun bind() {
             val cat = categoryList[adapterPosition]
             binding.tvCategoryName.text = cat.categoryName
-            /* if (cat.id == -1L) {
-                 binding.ivMove.isClickable = false
-                 binding.ivDelete.isClickable = false
-
-                 binding.ivMove.alpha = 0.6f
-                 binding.ivDelete.alpha = 0.6f
-             } else {
-                 binding.ivMove.isClickable = true
-                 binding.ivDelete.isClickable = true
-             }*/
 
             if (cat.id == -1L) {
                 binding.divider.hide()

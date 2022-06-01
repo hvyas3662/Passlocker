@@ -16,7 +16,6 @@ import com.elevationsoft.passlocker.databinding.FragmentCategoryBinding
 import com.elevationsoft.passlocker.domain.models.Category
 import com.elevationsoft.passlocker.presentation.add_category.AddUpdateCategoryActivity
 import com.elevationsoft.passlocker.presentation.home_screen.HomeActivity
-import com.elevationsoft.passlocker.utils.ContextUtils.toast
 import com.elevationsoft.passlocker.utils.CustomLoader
 import com.elevationsoft.passlocker.utils.FragmentUtils.startActivityForResult
 import com.elevationsoft.passlocker.utils.ViewUtils.hide
@@ -106,45 +105,52 @@ class CategoryListFragment : Fragment(), HomeActivity.OnAddClickedCallBack {
                     state.categoryList,
                     object : CategoryListAdapter.CategoryItemClickCallback {
                         override fun onCategoryClicked(category: Category) {
-                            context?.toast(category.toString())
+                            val intent =
+                                Intent(requireActivity(), AddUpdateCategoryActivity::class.java)
+                            intent.putExtra(AddUpdateCategoryActivity.KEY_CATEGORY_OBJ, category)
+                            openAddUpdateCategoryActivity.launch(intent)
                         }
 
                         override fun onCategoryDeleteClicked(category: Category) {
-                            EasyDialog.with(requireContext())
-                                .setCancelable(false)
-                                .setTitle(
-                                    true,
-                                    getString(
-                                        R.string.text_category_delete_title,
-                                        category.categoryName
-                                    )
-                                )
-                                .setMessage(
-                                    true,
-                                    getString(
-                                        R.string.text_category_delete_message,
-                                        category.categoryName
-                                    )
-                                )
-                                .setPrimaryButton(true, getString(R.string.text_yes))
-                                .setSecondaryButton(true, getString(R.string.text_no))
-                                .setOnButtonClickListener(object :
-                                    EasyDialog.OnButtonClickListener {
-                                    override fun onPrimaryButtonClick() {
-                                        categoryVm.deleteCategory(category.id)
-                                    }
-
-                                    override fun onSecondaryButtonClick() {
-
-                                    }
-
-                                }).show()
+                            openCategoryDeleteDialog(category)
                         }
 
                     })
                 binding.rvCategory.adapter = categoryListAdapter
             }
         }
+    }
+
+    private fun openCategoryDeleteDialog(category: Category) {
+        EasyDialog.with(requireContext())
+            .setCancelable(false)
+            .setTitle(
+                true,
+                getString(
+                    R.string.text_category_delete_title,
+                    category.categoryName
+                )
+            )
+            .setMessage(
+                true,
+                getString(
+                    R.string.text_category_delete_message,
+                    category.categoryName
+                )
+            )
+            .setPrimaryButton(true, getString(R.string.text_yes))
+            .setSecondaryButton(true, getString(R.string.text_no))
+            .setOnButtonClickListener(object :
+                EasyDialog.OnButtonClickListener {
+                override fun onPrimaryButtonClick() {
+                    categoryVm.deleteCategory(category.id)
+                }
+
+                override fun onSecondaryButtonClick() {
+
+                }
+
+            }).show()
     }
 
 
