@@ -49,7 +49,6 @@ android {
 dependencies {
     implementation project(':CustomTabs')
     implementation project(':EasyDialog')
-    implementation project(':FlowaLyoutManager')
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'
@@ -91,6 +90,9 @@ dependencies {
     //room db
     implementation "androidx.room:room-runtime:2.4.2"
     kapt "androidx.room:room-compiler:2.4.2"
+
+    //FlexBox
+    implementation 'com.google.android.flexbox:flexbox:3.0.0'
 
     //test
     testImplementation 'junit:junit:4.13.2'

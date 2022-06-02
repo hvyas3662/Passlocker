@@ -17,6 +17,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.elevationsoft.customtabs.utils.Extensions.dp
 import com.elevationsoft.passlocker.R
 import com.elevationsoft.passlocker.utils.common_classes.EqualSpacingItemDecoration
+import com.google.android.flexbox.AlignItems
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
 
 
 @Suppress("unused")
@@ -278,16 +282,11 @@ class ButtonList {
         }
         rv.setHasFixedSize(true)
         if (layoutManager == FLAX_LAYOUT_MANAGER) {
-            /*val flexboxLayoutManager = FlexboxLayoutManager(ctx)
-            flexboxLayoutManager.setFlexWrap(FlexWrap.WRAP)
-            flexboxLayoutManager.setAlignItems(AlignItems.FLEX_START)
-            flexboxLayoutManager.setFlexDirection(FlexDirection.ROW)
-            rv.layoutManager = flexboxLayoutManager*/
-
-            /*  val flexboxLayoutManager = FlowLayoutManager()
-              flexboxLayoutManager.setAlignment(Alignment.LEFT)
-              flexboxLayoutManager.isAutoMeasureEnabled = true
-              rv.layoutManager = flexboxLayoutManager*/
+            val flexboxLayoutManager = FlexboxLayoutManager(ctx)
+            flexboxLayoutManager.flexWrap = FlexWrap.WRAP
+            flexboxLayoutManager.alignItems = AlignItems.FLEX_START
+            flexboxLayoutManager.flexDirection = FlexDirection.ROW
+            rv.layoutManager = flexboxLayoutManager
             val pixelIn8Dp: Int = 8.dp
             rv.setPadding(0, pixelIn8Dp, 0, pixelIn8Dp)
             rv.clipToPadding = false
@@ -407,7 +406,7 @@ class ButtonList {
                     toggleBtn.setTextSize(TypedValue.COMPLEX_UNIT_SP, itemTextSize.toFloat())
                 }
                 if (layoutManager == FLAX_LAYOUT_MANAGER) {
-                    val llp = toggleBtn.layoutParams as RecyclerView.LayoutParams
+                    val llp = toggleBtn.layoutParams as FlexboxLayoutManager.LayoutParams
                     llp.bottomMargin = gap
                     llp.rightMargin = gap
                     if (itemHeight > 0) {
