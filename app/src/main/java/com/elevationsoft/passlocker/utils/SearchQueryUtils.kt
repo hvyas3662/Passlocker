@@ -44,4 +44,8 @@ object SearchQueryUtils {
 
         addTextChangedListener(searchQueryTextWatcher)
     }
+
+    fun cancelJob() {
+        searchQueryJob?.cancel()
+    }
 }

@@ -11,7 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.elevationsoft.easydialog.EasyDialog
+import com.elevationsoft.passlocker.R
 import com.elevationsoft.passlocker.databinding.FragmentPassListBinding
 import com.elevationsoft.passlocker.domain.models.Category
 import com.elevationsoft.passlocker.domain.models.Credential
@@ -21,6 +24,7 @@ import com.elevationsoft.passlocker.utils.ButtonList
 import com.elevationsoft.passlocker.utils.ContextUtils.toast
 import com.elevationsoft.passlocker.utils.CustomLoader
 import com.elevationsoft.passlocker.utils.FragmentUtils.startActivityForResult
+import com.elevationsoft.passlocker.utils.SearchQueryUtils
 import com.elevationsoft.passlocker.utils.SearchQueryUtils.setSearchQueryListener
 import com.elevationsoft.passlocker.utils.ViewUtils.hide
 import com.elevationsoft.passlocker.utils.ViewUtils.show
@@ -156,21 +160,22 @@ class PassListFragment : Fragment(), HomeActivity.OnAddClickedCallBack {
         binding.rvPasslist.setHasFixedSize(true)
         val llm = LinearLayoutManager(requireContext())
         binding.rvPasslist.layoutManager = llm
-        passListAdapter = PassListAdapter(object : PassListAdapter.PassListItemCallBacks {
-            override fun onItemClicked(credential: Credential) {
-                val intent = Intent(requireActivity(), AddCredentialsActivity::class.java)
-                intent.putExtra(AddCredentialsActivity.KEY_CREDENTIAL_OBJ, credential)
-                openAddCredentialActivity.launch(intent)
-            }
+        passListAdapter =
+            PassListAdapter(requireContext(), object : PassListAdapter.PassListItemCallBacks {
+                override fun onItemClicked(credential: Credential) {
+                    val intent = Intent(requireActivity(), AddCredentialsActivity::class.java)
+                    intent.putExtra(AddCredentialsActivity.KEY_CREDENTIAL_OBJ, credential)
+                    openAddCredentialActivity.launch(intent)
+                }
 
-            override fun onDeleteClicked(credential: Credential) {
-                openDeleteCredentialDialog(credential)
-            }
+                override fun onDeleteClicked(credential: Credential) {
+                    openDeleteCredentialDialog(credential)
+                }
 
-            override fun onFavouriteClicked(credential: Credential) {
-                TODO("Not yet implemented")
-            }
-        })
+                override fun onFavouriteClicked(credential: Credential) {
+                    passListVm.markUnMarkFavourite(credential.id, !credential.isFavourite)
+                }
+            })
         binding.rvPasslist.adapter = passListAdapter
 
         startPagingStateUpdate()
@@ -212,7 +217,34 @@ class PassListFragment : Fragment(), HomeActivity.OnAddClickedCallBack {
     }
 
     private fun openDeleteCredentialDialog(credential: Credential) {
+        EasyDialog.with(requireContext())
+            .setCancelable(false)
+            .setTitle(true, getString(R.string.text_alert))
+            .setMessage(
+                true,
+                getString(
+                    R.string.text_credential_delete_dialog_message,
+                    credential.title
+                )
+            )
+            .setPrimaryButton(true, getString(R.string.text_yes))
+            .setSecondaryButton(true, getString(R.string.text_no))
+            .setOnButtonClickListener(object :
+                EasyDialog.OnButtonClickListener {
+                override fun onPrimaryButtonClick() {
+                    passListVm.deleteCredential(credential.id)
+                }
 
+                override fun onSecondaryButtonClick() {
+
+                }
+
+            }).show()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        SearchQueryUtils.cancelJob()
     }
 
     companion object {

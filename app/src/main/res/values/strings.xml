@@ -17,6 +17,7 @@
     <string name="text_no_data_error">Oops! No Data Found</string>
     <string name="text_yes">Yes</string>
     <string name="text_no">No</string>
+    <string name="text_alert">Alert</string>
 
     <!-- home screen -->
     <string name="text_welcome">Welcome!</string>
@@ -30,6 +31,7 @@
     <string name="text_item_marked_fav">Credential Marked as Favourite</string>
     <string name="text_item_unmarked_fav">Credential UnMarked as Favourite</string>
     <string name="text_credential_deleted_msg">Credential Deleted Successfully</string>
+    <string name="text_credential_delete_dialog_message">Are you sure? You want to delete %s.</string>
 
 
     <!-- login screen -->

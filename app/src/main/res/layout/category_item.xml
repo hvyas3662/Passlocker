@@ -34,8 +34,8 @@
             android:id="@+id/divider"
             android:layout_width="@dimen/divider_width"
             android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/margin_16"
-            android:layout_marginEnd="@dimen/margin_16"
+            android:layout_marginStart="@dimen/margin_12"
+            android:layout_marginEnd="@dimen/margin_12"
             android:background="@drawable/divider_bg" />
 
         <ImageView

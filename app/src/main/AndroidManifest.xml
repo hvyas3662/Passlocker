@@ -26,6 +26,7 @@
             android:name=".presentation.home_screen.HomeActivity"
             android:exported="false"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing"
             tools:ignore="LockedOrientationActivity" />
 
         <activity

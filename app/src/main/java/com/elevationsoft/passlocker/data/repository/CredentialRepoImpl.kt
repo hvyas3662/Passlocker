@@ -17,7 +17,7 @@ class CredentialRepoImpl @Inject constructor(private val roomDao: RoomDao) : Cre
     ): Flow<PagingData<CredentialDto>> {
         return Pager(
             PagingConfig(pageSize = 10, enablePlaceholders = false),
-            initialKey = 0
+            initialKey = 1
         ) {
             CredentialDataSource(roomDao, listMode)
         }.flow

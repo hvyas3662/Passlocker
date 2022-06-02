@@ -11,6 +11,7 @@
     app:cardElevation="2dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/transparent"
@@ -63,8 +64,8 @@
             android:id="@+id/divider"
             android:layout_width="@dimen/divider_width"
             android:layout_height="@dimen/zero"
-            android:layout_marginStart="@dimen/margin_16"
-            android:layout_marginEnd="@dimen/margin_16"
+            android:layout_marginStart="@dimen/margin_12"
+            android:layout_marginEnd="@dimen/margin_12"
             android:background="@drawable/divider_bg"
             app:layout_constraintBottom_toBottomOf="@id/ll_info"
             app:layout_constraintEnd_toStartOf="@id/ll_action"
@@ -84,7 +85,7 @@
             app:layout_constraintTop_toTopOf="@id/ll_info">
 
             <ImageView
-                android:id="@+id/iv_move"
+                android:id="@+id/iv_fav"
                 android:layout_width="@dimen/item_action_button_size"
                 android:layout_height="@dimen/item_action_button_size"
                 android:background="@drawable/action_button_bg"

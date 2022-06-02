@@ -5,6 +5,7 @@ import androidx.paging.PagingState
 import com.elevationsoft.passlocker.data.dto.CredentialDto
 import com.elevationsoft.passlocker.data.local.room.RoomDao
 import com.elevationsoft.passlocker.domain.utils.CredentialListMode
+import kotlinx.coroutines.delay
 import timber.log.Timber
 
 class CredentialDataSource constructor(
@@ -13,10 +14,11 @@ class CredentialDataSource constructor(
 ) : PagingSource<Int, CredentialDto>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, CredentialDto> {
-        val page: Int = params.key ?: 0
-        val rowCount: Int = params.loadSize
+        val page: Int = params.key ?: 1
+        val rowCount = 10
         val startIndex: Int = (page - 1) * rowCount
 
+        //delay(2000)
         var dataList: List<CredentialDto> = mutableListOf()
         when (listMode) {
             is CredentialListMode.Favourite -> {
