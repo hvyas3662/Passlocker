@@ -55,12 +55,10 @@ dependencies {
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
-
     //Mvvm
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
     implementation "androidx.activity:activity-ktx:1.4.0"
     implementation 'androidx.fragment:fragment-ktx:1.4.1'
-
 
     //hilt
     implementation "com.google.dagger:hilt-android:2.41"
@@ -93,6 +91,9 @@ dependencies {
 
     //FlexBox
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
+
+    //paging
+    implementation "androidx.paging:paging-runtime-ktx:3.1.1"
 
     //test
     testImplementation 'junit:junit:4.13.2'
