@@ -5,7 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elevationsoft.passlocker.domain.models.Category
+import com.elevationsoft.passlocker.domain.models.Credential
 import com.elevationsoft.passlocker.domain.use_cases.category.GetCategoryListUC
+import com.elevationsoft.passlocker.domain.use_cases.credential.AddUpdateCredentialUC
 import com.elevationsoft.passlocker.utils.common_classes.DataState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -15,6 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AddCredentialViewModel @Inject constructor(
     private val categoryListUC: GetCategoryListUC,
+    private val addUpdateCredentialUC: AddUpdateCredentialUC
 ) : ViewModel() {
 
     private val _screenState: MutableLiveData<AddCredentialScreenState> =
@@ -26,8 +29,7 @@ class AddCredentialViewModel @Inject constructor(
             when (it) {
                 is DataState.Loading -> {
                     _screenState.value = screenState.value?.copy(
-                        isLoading = it.isLoading,
-                        loadingType = AddCredentialScreenState.LOADING_TYPE_OVER_UI
+                        isLoading = it.isLoading
                     )
                 }
 
@@ -59,5 +61,57 @@ class AddCredentialViewModel @Inject constructor(
         )
     }
 
+
+    fun validateTitle(title: String): Boolean {
+        return title.trim().isNotEmpty()
+    }
+
+    fun getValidTitle(title: String): String {
+        return title.trim()
+    }
+
+    fun validateUsername(username: String): Boolean {
+        return username.trim().isNotEmpty()
+    }
+
+    fun getValidUsername(username: String): String {
+        return username.trim()
+    }
+
+    fun getValidPassword(password: String): String {
+        return password.trim()
+    }
+
+    fun getValidRemark(remark: String): String {
+        return remark.trim()
+    }
+
+    fun insertUpdateCredential(
+        id: Long,
+        title: String,
+        username: String,
+        password: String,
+        remark: String,
+        favourite: Boolean,
+        catId: Long
+    ) {
+        val credential = Credential(id, title, username, password, remark, favourite, catId)
+        addUpdateCredentialUC(credential).onEach {
+            when (it) {
+                is DataState.Loading -> {
+                    _screenState.value = screenState.value!!.copy(isLoading = it.isLoading)
+                }
+
+                is DataState.Success -> {
+                    _screenState.value = screenState.value!!.copy(isCredentialAdded = it.data!!)
+                }
+
+                is DataState.Failed -> {
+                    _screenState.value = screenState.value!!.copy(hasError = it.errorMsg)
+                }
+            }
+        }.launchIn(viewModelScope)
+
+    }
 
 }

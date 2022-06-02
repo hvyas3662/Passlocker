@@ -7,6 +7,7 @@ import com.elevationsoft.passlocker.data.local.room.RoomDao
 import com.elevationsoft.passlocker.data.repository.CategoryRepoImpl
 import com.elevationsoft.passlocker.data.repository.CredentialRepoImpl
 import com.elevationsoft.passlocker.domain.use_cases.category.*
+import com.elevationsoft.passlocker.domain.use_cases.credential.AddUpdateCredentialUC
 import com.elevationsoft.passlocker.utils.PrefUtils
 import dagger.Module
 import dagger.Provides
@@ -48,7 +49,7 @@ object AppModule {
         return CredentialRepoImpl(roomDao)
     }
 
-    //category use case providers
+    //Category use case providers
     @Provides
     @Singleton
     fun provideGetCategoryListUC(categoryRepo: CategoryRepoImpl): GetCategoryListUC {
@@ -79,4 +80,10 @@ object AppModule {
         return UpdateCategoryListPositionUC(categoryRepo)
     }
 
+    //Credential use case providers
+    @Provides
+    @Singleton
+    fun provideAddUpdateCredentialUC(credentialRepoImpl: CredentialRepoImpl): AddUpdateCredentialUC {
+        return AddUpdateCredentialUC(credentialRepoImpl)
+    }
 }

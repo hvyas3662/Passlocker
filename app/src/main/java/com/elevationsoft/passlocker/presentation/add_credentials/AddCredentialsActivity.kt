@@ -22,6 +22,7 @@ class AddCredentialsActivity : AppCompatActivity() {
     private val vm by viewModels<AddCredentialViewModel>()
     private var mode = MODE_ADD
     private var credential: Credential? = null
+    private var selectedCategoryId = -1L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +40,10 @@ class AddCredentialsActivity : AppCompatActivity() {
         initToolBar()
 
         if (mode == MODE_EDIT) {
-            //todo update text field value
+            binding.etTitle.setText(credential!!.title)
+            binding.etUsername.setText(credential!!.userName)
+            binding.etPassword.setText(credential!!.password)
+            binding.etRemark.setText(credential!!.remark)
         }
 
         vm.screenState.observe(this) {
@@ -78,7 +82,37 @@ class AddCredentialsActivity : AppCompatActivity() {
         }
         vm.getCategoryList()
         binding.btnSubmit.setOnClickListener {
+            val categoryId = selectedCategoryId
+            val title = binding.etTitle.text.toString()
+            val username = binding.etUsername.text.toString()
+            val password = binding.etPassword.text.toString()
+            val remark = binding.etRemark.text.toString()
+            if (!vm.validateTitle(title)) {
+                toast(getString(R.string.text_credential_title_error))
+            } else if (!vm.validateUsername(username)) {
+                toast(getString(R.string.text_credential_username_error))
+            } else {
 
+                var credentialId = 0L
+                val validTitle = vm.getValidTitle(title)
+                val validUsername = vm.getValidUsername(username)
+                val validPassword = vm.getValidPassword(password)
+                val validRemark = vm.getValidRemark(remark)
+                var isFavourite = false
+                if (mode == MODE_EDIT) {
+                    credentialId = credential!!.id
+                    isFavourite = credential!!.isFavourite
+                }
+                vm.insertUpdateCredential(
+                    credentialId,
+                    validTitle,
+                    validUsername,
+                    validPassword,
+                    validRemark,
+                    isFavourite,
+                    categoryId
+                )
+            }
         }
 
     }
@@ -88,16 +122,24 @@ class AddCredentialsActivity : AppCompatActivity() {
         categoryList.forEach { cat ->
             catList.add(cat.categoryName)
         }
+        var selectedIndex = 0
+        if (mode == MODE_EDIT) {
+            selectedIndex = categoryList.indexOfFirst { it.id == credential!!.categoryId }
+            if (selectedIndex < 0) {
+                selectedIndex = 0
+            }
+        }
+        selectedCategoryId = categoryList[selectedIndex].id
         val btnList = ButtonList.with(this@AddCredentialsActivity)
             .setLayoutManager(ButtonList.FLAX_LAYOUT_MANAGER)
             .setOrientation(ButtonList.ORIENTATION_VERTICAL)
             .setRecyclerViewHeight(ButtonList.RECYCLER_VIEW_HEIGHT_WRAP_CONTENT)
             .setGapInItem(8)
             .setDataList(catList)
-            .setSelectedIndex(0)
+            .setSelectedIndex(selectedIndex)
             .setSelectListener(object : ButtonList.ItemListener {
                 override fun onItemClick(item: String, index: Int) {
-                    toast("$item -> $index")
+                    selectedCategoryId = categoryList[index].id
                 }
             })
         binding.llCategoryHolder.removeAllViews()

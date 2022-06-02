@@ -53,6 +53,8 @@
     <string name="text_credential_added">Credential added successfully</string>
     <string name="text_credential_updated">Credential updated successfully</string>
     <string name="text_select_category">Select Category</string>
+    <string name="text_credential_title_error">Please enter valid title</string>
+    <string name="text_credential_username_error">Please enter valid username</string>
 
 
 </resources>
