@@ -1,5 +1,9 @@
 package com.elevationsoft.passlocker.domain.models
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Credential(
     val id: Long,
     val title: String,
@@ -8,4 +12,4 @@ data class Credential(
     val remark: String,
     val isFavourite: Boolean,
     val categoryId: Long
-)
+) : Parcelable

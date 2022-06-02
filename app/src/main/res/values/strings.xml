@@ -49,6 +49,10 @@
 
     <!--Add credentials-->
     <string name="text_add_credentials">Add Credentials</string>
+    <string name="text_update_credentials">Update Credentials</string>
+    <string name="text_credential_added">Credential added successfully</string>
+    <string name="text_credential_updated">Credential updated successfully</string>
+    <string name="text_select_category">Select Category</string>
 
 
 </resources>

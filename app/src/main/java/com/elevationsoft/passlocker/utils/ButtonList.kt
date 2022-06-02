@@ -10,7 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,8 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.elevationsoft.customtabs.utils.Extensions.dp
 import com.elevationsoft.passlocker.R
 import com.elevationsoft.passlocker.utils.common_classes.EqualSpacingItemDecoration
-import com.xiaofeng.flowlayoutmanager.Alignment
-import com.xiaofeng.flowlayoutmanager.FlowLayoutManager
+
 
 @Suppress("unused")
 class ButtonList {
@@ -280,11 +278,18 @@ class ButtonList {
         }
         rv.setHasFixedSize(true)
         if (layoutManager == FLAX_LAYOUT_MANAGER) {
-            val flexboxLayoutManager = FlowLayoutManager()
-            flexboxLayoutManager.setAlignment(Alignment.LEFT)
-            rv.layoutManager = flexboxLayoutManager
+            /*val flexboxLayoutManager = FlexboxLayoutManager(ctx)
+            flexboxLayoutManager.setFlexWrap(FlexWrap.WRAP)
+            flexboxLayoutManager.setAlignItems(AlignItems.FLEX_START)
+            flexboxLayoutManager.setFlexDirection(FlexDirection.ROW)
+            rv.layoutManager = flexboxLayoutManager*/
+
+            /*  val flexboxLayoutManager = FlowLayoutManager()
+              flexboxLayoutManager.setAlignment(Alignment.LEFT)
+              flexboxLayoutManager.isAutoMeasureEnabled = true
+              rv.layoutManager = flexboxLayoutManager*/
             val pixelIn8Dp: Int = 8.dp
-            rv.setPadding(pixelIn8Dp, pixelIn8Dp, pixelIn8Dp, pixelIn8Dp)
+            rv.setPadding(0, pixelIn8Dp, 0, pixelIn8Dp)
             rv.clipToPadding = false
         } else {
             val ori: Int = if (orientation == ORIENTATION_VERTICAL) {
@@ -402,7 +407,7 @@ class ButtonList {
                     toggleBtn.setTextSize(TypedValue.COMPLEX_UNIT_SP, itemTextSize.toFloat())
                 }
                 if (layoutManager == FLAX_LAYOUT_MANAGER) {
-                    val llp = toggleBtn.layoutParams as RelativeLayout.LayoutParams
+                    val llp = toggleBtn.layoutParams as RecyclerView.LayoutParams
                     llp.bottomMargin = gap
                     llp.rightMargin = gap
                     if (itemHeight > 0) {
