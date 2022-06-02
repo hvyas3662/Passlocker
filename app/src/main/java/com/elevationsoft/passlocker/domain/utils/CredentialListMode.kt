@@ -1,27 +1,21 @@
 package com.elevationsoft.passlocker.domain.utils
 
-sealed class CredentialListMode() {
-    class Favourite(
-        startIndex: Int,
-        rowCount: Int
-    ) : CredentialListMode()
+sealed class CredentialListMode(
+    val searchStr: String = "",
+    val categoryId: Long = -1L
+) {
+    class Favourite : CredentialListMode()
 
     class FavouriteSearch(
-        searchStr: String,
-        startIndex: Int,
-        rowCount: Int
-    ) : CredentialListMode()
+        searchStr: String
+    ) : CredentialListMode(searchStr = searchStr)
 
     class Category(
         categoryId: Long,
-        startIndex: Int,
-        rowCount: Int
-    ) : CredentialListMode()
+    ) : CredentialListMode(categoryId = categoryId)
 
     class CategorySearch(
         searchStr: String,
         categoryId: Long,
-        startIndex: Int,
-        rowCount: Int
-    ) : CredentialListMode()
+    ) : CredentialListMode(searchStr = searchStr, categoryId = categoryId)
 }

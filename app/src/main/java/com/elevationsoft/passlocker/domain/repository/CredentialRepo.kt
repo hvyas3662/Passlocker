@@ -1,23 +1,14 @@
 package com.elevationsoft.passlocker.domain.repository
 
+import androidx.paging.PagingData
 import com.elevationsoft.passlocker.data.dto.CredentialDto
+import com.elevationsoft.passlocker.domain.utils.CredentialListMode
+import kotlinx.coroutines.flow.Flow
 
 interface CredentialRepo {
-    suspend fun getFavCredentialPage(startIndex: Int, rowCount: Int): List<CredentialDto>
-
-    suspend fun getCredentialPage(
-        catId: Long,
-        startIndex: Int,
-        rowCount: Int
-    ): List<CredentialDto>
-
-    suspend fun getCredentialPage(
-        search: String,
-        catId: Long,
-        startIndex: Int,
-        rowCount: Int
-    ): List<CredentialDto>
-
+    fun getCredentialPage(
+        listMode: CredentialListMode
+    ): Flow<PagingData<CredentialDto>>
 
     suspend fun insertUpdateCredential(credential: CredentialDto)
 

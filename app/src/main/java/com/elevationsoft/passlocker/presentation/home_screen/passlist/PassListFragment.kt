@@ -9,16 +9,23 @@ import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.elevationsoft.passlocker.R
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.elevationsoft.passlocker.databinding.FragmentPassListBinding
 import com.elevationsoft.passlocker.domain.models.Category
+import com.elevationsoft.passlocker.domain.models.Credential
 import com.elevationsoft.passlocker.presentation.add_credentials.AddCredentialsActivity
 import com.elevationsoft.passlocker.presentation.home_screen.HomeActivity
 import com.elevationsoft.passlocker.utils.ButtonList
+import com.elevationsoft.passlocker.utils.ContextUtils.toast
+import com.elevationsoft.passlocker.utils.CustomLoader
 import com.elevationsoft.passlocker.utils.FragmentUtils.startActivityForResult
+import com.elevationsoft.passlocker.utils.SearchQueryUtils.setSearchQueryListener
 import com.elevationsoft.passlocker.utils.ViewUtils.hide
 import com.elevationsoft.passlocker.utils.ViewUtils.show
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class PassListFragment : Fragment(), HomeActivity.OnAddClickedCallBack {
@@ -26,6 +33,7 @@ class PassListFragment : Fragment(), HomeActivity.OnAddClickedCallBack {
     private lateinit var binding: FragmentPassListBinding
     private lateinit var openAddCredentialActivity: ActivityResultLauncher<Intent>
     private var selectedCategoryId = -1L
+    private var passListAdapter: PassListAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +41,7 @@ class PassListFragment : Fragment(), HomeActivity.OnAddClickedCallBack {
         openAddCredentialActivity = startActivityForResult {
             it?.let { result ->
                 if (result.resultCode == RESULT_OK) {
-
+                    passListAdapter?.refresh()
                 }
             }
         }
@@ -50,9 +58,23 @@ class PassListFragment : Fragment(), HomeActivity.OnAddClickedCallBack {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setUpRecyclerView()
+
         passListVm.passlistFragState.removeObservers(viewLifecycleOwner)
         passListVm.passlistFragState.observe(viewLifecycleOwner) {
             updateUi(it)
+        }
+
+        binding.etSearch.setSearchQueryListener(lifecycle) {
+            submitAdapter(it)
+        }
+
+        passListVm.isItemDeleted.observe(viewLifecycleOwner) {
+            requireContext().toast(it.asString(requireContext()))
+        }
+
+        passListVm.isItemMarkedFav.observe(viewLifecycleOwner) {
+            requireContext().toast(it.asString(requireContext()))
         }
 
         passListVm.getCategoryList()
@@ -65,12 +87,19 @@ class PassListFragment : Fragment(), HomeActivity.OnAddClickedCallBack {
 
     private fun updateUi(state: PassListFragmentState) {
         if (state.isCategoryLoaded) {
-            //replace loader with
-            binding.layoutLoadingView.root.hide()
-            binding.llSearch.hide()
-            binding.layoutEmptyView.root.show()
-            binding.layoutEmptyView.tvError.text = getString(R.string.text_no_data)
-            binding.rvPasslist.hide()
+
+            if (state.isLoading) {
+                CustomLoader.getInstance().showLoader(requireActivity())
+            } else {
+                CustomLoader.getInstance().hideLoader(requireActivity())
+            }
+
+            if (state.hasError.asString(requireContext()).isNotEmpty()) {
+                binding.llSearch.hide()
+                binding.layoutEmptyView.root.show()
+                binding.layoutEmptyView.tvError.text =
+                    state.hasError.asString(requireContext())
+            }
         } else {
             binding.rvPasslist.hide()
             if (state.isLoading) {
@@ -87,10 +116,10 @@ class PassListFragment : Fragment(), HomeActivity.OnAddClickedCallBack {
                 binding.layoutEmptyView.root.hide()
                 setUpCategoryTabs(state.categoryList)
                 passListVm.setCategoryLoaded()
+                submitAdapter()
             }
 
         }
-
     }
 
     private fun setUpCategoryTabs(categoryList: List<Category>) {
@@ -115,10 +144,74 @@ class PassListFragment : Fragment(), HomeActivity.OnAddClickedCallBack {
                 override fun onItemClick(item: String, index: Int) {
                     selectedCategoryId = categoryList[index].id
                     passListVm.saveSelectedCategoryId(categoryList[index].id)
+                    submitAdapter()
                 }
             })
         binding.llCatTabs.removeAllViews()
         binding.llCatTabs.addView(btnList.createView())
+
+    }
+
+    private fun setUpRecyclerView() {
+        binding.rvPasslist.setHasFixedSize(true)
+        val llm = LinearLayoutManager(requireContext())
+        binding.rvPasslist.layoutManager = llm
+        passListAdapter = PassListAdapter(object : PassListAdapter.PassListItemCallBacks {
+            override fun onItemClicked(credential: Credential) {
+                val intent = Intent(requireActivity(), AddCredentialsActivity::class.java)
+                intent.putExtra(AddCredentialsActivity.KEY_CREDENTIAL_OBJ, credential)
+                openAddCredentialActivity.launch(intent)
+            }
+
+            override fun onDeleteClicked(credential: Credential) {
+                openDeleteCredentialDialog(credential)
+            }
+
+            override fun onFavouriteClicked(credential: Credential) {
+                TODO("Not yet implemented")
+            }
+        })
+        binding.rvPasslist.adapter = passListAdapter
+
+        startPagingStateUpdate()
+    }
+
+    private fun submitAdapter(query: String = binding.etSearch.text.toString()) {
+        lifecycleScope.launchWhenResumed {
+            passListVm.getCredentialList(query, selectedCategoryId)
+                .collectLatest {
+                    passListAdapter?.submitData(it)
+                }
+        }
+    }
+
+    private fun startPagingStateUpdate() {
+        lifecycleScope.launchWhenResumed {
+            passListAdapter?.loadStateFlow?.collectLatest {
+                when (it.refresh) {
+                    is LoadState.Loading -> {
+                        binding.layoutLoadingView.root.show()
+                        binding.layoutEmptyView.root.hide()
+                        binding.rvPasslist.hide()
+                    }
+                    is LoadState.NotLoading -> {
+                        binding.layoutLoadingView.root.hide()
+                        binding.layoutEmptyView.root.hide()
+                        binding.rvPasslist.show()
+                    }
+                    is LoadState.Error -> {
+                        binding.layoutLoadingView.root.hide()
+                        binding.layoutEmptyView.root.show()
+                        binding.rvPasslist.hide()
+                        binding.layoutEmptyView.tvError.text =
+                            (it.refresh as LoadState.Error).error.localizedMessage
+                    }
+                }
+            }
+        }
+    }
+
+    private fun openDeleteCredentialDialog(credential: Credential) {
 
     }
 

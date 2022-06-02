@@ -4,15 +4,21 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.elevationsoft.passlocker.R
+import com.elevationsoft.passlocker.domain.models.Credential
 import com.elevationsoft.passlocker.domain.use_cases.category.GetCategoryListUC
 import com.elevationsoft.passlocker.domain.use_cases.credential.DeleteCredentialUC
+import com.elevationsoft.passlocker.domain.use_cases.credential.GetCredentialListUC
 import com.elevationsoft.passlocker.domain.use_cases.credential.MarkUnMarkFavouriteCredentialUC
+import com.elevationsoft.passlocker.domain.utils.CredentialListMode
 import com.elevationsoft.passlocker.presentation.home_screen.passlist.PassListFragmentState.Companion.LOADING_TYPE_OVER_UI
 import com.elevationsoft.passlocker.utils.PrefUtils
 import com.elevationsoft.passlocker.utils.common_classes.DataState
 import com.elevationsoft.passlocker.utils.common_classes.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -22,7 +28,8 @@ class PasslistFragmentViewModel @Inject constructor(
     private val prefUtils: PrefUtils,
     private val categoryListUC: GetCategoryListUC,
     private val markUnMarkFavouriteCredentialUC: MarkUnMarkFavouriteCredentialUC,
-    private val deleteCredentialUC: DeleteCredentialUC
+    private val deleteCredentialUC: DeleteCredentialUC,
+    private val getCredentialListUC: GetCredentialListUC
 ) : ViewModel() {
 
     private val _passlistFragState: MutableLiveData<PassListFragmentState> =
@@ -117,5 +124,21 @@ class PasslistFragmentViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
+    fun getCredentialList(searchQuery: String, categoryId: Long): Flow<PagingData<Credential>> {
+        val listMode = if (categoryId <= 0) {
+            if (searchQuery.isNotEmpty()) {
+                CredentialListMode.FavouriteSearch(searchQuery)
+            } else {
+                CredentialListMode.Favourite()
+            }
+        } else {
+            if (searchQuery.isNotEmpty()) {
+                CredentialListMode.CategorySearch(searchQuery, categoryId)
+            } else {
+                CredentialListMode.Category(categoryId)
+            }
+        }
+        return getCredentialListUC(listMode).cachedIn(viewModelScope)
+    }
 
 }

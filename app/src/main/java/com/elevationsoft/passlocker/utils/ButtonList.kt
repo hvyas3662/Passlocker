@@ -383,7 +383,7 @@ class ButtonList {
                     return@OnClickListener
                 }
 
-                selectedIndex = holder.adapterPosition
+                selectedIndex = holder.bindingAdapterPosition
                 selectedItem = itemList[selectedIndex]
 
                 notifyDataSetChanged()

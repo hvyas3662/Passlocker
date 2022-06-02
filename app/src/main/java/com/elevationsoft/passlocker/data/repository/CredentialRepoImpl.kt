@@ -1,34 +1,26 @@
 package com.elevationsoft.passlocker.data.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.elevationsoft.passlocker.data.dto.CredentialDto
 import com.elevationsoft.passlocker.data.local.room.RoomDao
+import com.elevationsoft.passlocker.data.paging_data_source.CredentialDataSource
 import com.elevationsoft.passlocker.domain.repository.CredentialRepo
+import com.elevationsoft.passlocker.domain.utils.CredentialListMode
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class CredentialRepoImpl @Inject constructor(private val roomDao: RoomDao) : CredentialRepo {
-
-    override suspend fun getFavCredentialPage(
-        startIndex: Int,
-        rowCount: Int
-    ): List<CredentialDto> {
-        return roomDao.getFavCredentialPage(startIndex, rowCount)
-    }
-
-    override suspend fun getCredentialPage(
-        catId: Long,
-        startIndex: Int,
-        rowCount: Int
-    ): List<CredentialDto> {
-        return roomDao.getCredentialPage(catId, startIndex, rowCount)
-    }
-
-    override suspend fun getCredentialPage(
-        search: String,
-        catId: Long,
-        startIndex: Int,
-        rowCount: Int
-    ): List<CredentialDto> {
-        return roomDao.getCredentialPage(search, catId, startIndex, rowCount)
+    override fun getCredentialPage(
+        listMode: CredentialListMode
+    ): Flow<PagingData<CredentialDto>> {
+        return Pager(
+            PagingConfig(pageSize = 10, enablePlaceholders = false),
+            initialKey = 0
+        ) {
+            CredentialDataSource(roomDao, listMode)
+        }.flow
     }
 
     override suspend fun insertUpdateCredential(credential: CredentialDto) {

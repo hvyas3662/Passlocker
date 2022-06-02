@@ -37,13 +37,13 @@ class CategoryListAdapter(
 
         init {
             binding.cvMain.setOnClickListener {
-                if (categoryList[adapterPosition].id != -1L) {
-                    callback.onCategoryClicked(categoryList[adapterPosition])
+                if (categoryList[bindingAdapterPosition].id != -1L) {
+                    callback.onCategoryClicked(categoryList[bindingAdapterPosition])
                 }
             }
 
             binding.ivDelete.setOnClickListener {
-                callback.onCategoryDeleteClicked(categoryList[adapterPosition])
+                callback.onCategoryDeleteClicked(categoryList[bindingAdapterPosition])
             }
 
             binding.ivMove.setOnTouchListener { _, event ->
@@ -55,7 +55,7 @@ class CategoryListAdapter(
         }
 
         fun bind() {
-            val cat = categoryList[adapterPosition]
+            val cat = categoryList[bindingAdapterPosition]
             binding.tvCategoryName.text = cat.categoryName
 
             if (cat.id == -1L) {

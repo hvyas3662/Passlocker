@@ -68,7 +68,10 @@ class CategoryListFragment : Fragment(), HomeActivity.OnAddClickedCallBack {
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
-                categoryListAdapter?.onItemMove(viewHolder.adapterPosition, target.adapterPosition)
+                categoryListAdapter?.onItemMove(
+                    viewHolder.bindingAdapterPosition,
+                    target.bindingAdapterPosition
+                )
                 return true
             }
 
