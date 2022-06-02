@@ -60,9 +60,9 @@ class AddCredentialsActivity : AppCompatActivity() {
                     CustomLoader.getInstance().hideLoader(this)
                     setResult(Activity.RESULT_OK, Intent())
                     if (mode == MODE_EDIT) {
-                        toast(getString(R.string.text_credential_added), Toast.LENGTH_LONG)
-                    } else {
                         toast(getString(R.string.text_credential_updated), Toast.LENGTH_LONG)
+                    } else {
+                        toast(getString(R.string.text_credential_added), Toast.LENGTH_LONG)
                     }
                     finish()
                 }
