@@ -26,6 +26,9 @@
     <string name="text_manage_cat">Manage Categories</string>
     <string name="text_category_delete_title">Delete %s Category?</string>
     <string name="text_category_delete_message">This will delete all Credential of %s Category.</string>
+    <string name="text_item_marked_fav">Credential Marked as Favourite</string>
+    <string name="text_item_unmarked_fav">Credential UnMarked as Favourite</string>
+    <string name="text_credential_deleted_msg">Credential Deleted Successfully</string>
 
 
     <!-- login screen -->

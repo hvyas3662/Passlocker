@@ -68,4 +68,7 @@ interface RoomDao {
     @Query("DELETE FROM credential WHERE id = :credentialId")
     suspend fun deleteCredential(credentialId: Long)
 
+    @Query("UPDATE credential SET isFavourite = :fav  WHERE id = :credentialId")
+    suspend fun markUnMarkFavourite(credentialId: Long, fav: Boolean)
+
 }

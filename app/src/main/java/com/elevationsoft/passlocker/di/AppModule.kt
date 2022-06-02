@@ -8,6 +8,8 @@ import com.elevationsoft.passlocker.data.repository.CategoryRepoImpl
 import com.elevationsoft.passlocker.data.repository.CredentialRepoImpl
 import com.elevationsoft.passlocker.domain.use_cases.category.*
 import com.elevationsoft.passlocker.domain.use_cases.credential.AddUpdateCredentialUC
+import com.elevationsoft.passlocker.domain.use_cases.credential.DeleteCredentialUC
+import com.elevationsoft.passlocker.domain.use_cases.credential.MarkUnMarkFavouriteCredentialUC
 import com.elevationsoft.passlocker.utils.PrefUtils
 import dagger.Module
 import dagger.Provides
@@ -85,5 +87,17 @@ object AppModule {
     @Singleton
     fun provideAddUpdateCredentialUC(credentialRepoImpl: CredentialRepoImpl): AddUpdateCredentialUC {
         return AddUpdateCredentialUC(credentialRepoImpl)
+    }
+
+    @Provides
+    @Singleton
+    fun provideMarkUnMarkFavouriteCredentialUC(credentialRepoImpl: CredentialRepoImpl): MarkUnMarkFavouriteCredentialUC {
+        return MarkUnMarkFavouriteCredentialUC(credentialRepoImpl)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDeleteCredentialUC(credentialRepoImpl: CredentialRepoImpl): DeleteCredentialUC {
+        return DeleteCredentialUC(credentialRepoImpl)
     }
 }

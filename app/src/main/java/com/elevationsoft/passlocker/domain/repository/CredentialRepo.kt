@@ -22,4 +22,6 @@ interface CredentialRepo {
     suspend fun insertUpdateCredential(credential: CredentialDto)
 
     suspend fun deleteCredential(credentialId: Long)
+
+    suspend fun markUnMarkFavourite(credentialId: Long, fav: Boolean)
 }

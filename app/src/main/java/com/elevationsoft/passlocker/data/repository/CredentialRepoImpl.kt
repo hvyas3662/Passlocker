@@ -38,4 +38,8 @@ class CredentialRepoImpl @Inject constructor(private val roomDao: RoomDao) : Cre
     override suspend fun deleteCredential(credentialId: Long) {
         return roomDao.deleteCredential(credentialId)
     }
+
+    override suspend fun markUnMarkFavourite(credentialId: Long, fav: Boolean) {
+        return roomDao.markUnMarkFavourite(credentialId, fav)
+    }
 }
