@@ -8,6 +8,7 @@ import com.elevationsoft.passlocker.data.local.room.RoomDao
 import com.elevationsoft.passlocker.data.paging_data_source.CredentialDataSource
 import com.elevationsoft.passlocker.domain.repository.CredentialRepo
 import com.elevationsoft.passlocker.domain.utils.CredentialListMode
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -24,17 +25,20 @@ class CredentialRepoImpl @Inject constructor(private val roomDao: RoomDao) : Cre
     }
 
     override suspend fun insertUpdateCredential(credential: CredentialDto): CredentialDto {
+        delay(500)
         val credentialId = roomDao.insertUpdateCredential(credential)
         return roomDao.getCredentialViaId(credentialId)
     }
 
     override suspend fun deleteCredential(credentialId: Long): CredentialDto {
+        delay(500)
         val credentialDto = roomDao.getCredentialViaId(credentialId)
         roomDao.deleteCredential(credentialId)
         return credentialDto
     }
 
     override suspend fun markUnMarkFavourite(credentialId: Long, fav: Boolean): CredentialDto {
+        delay(500)
         roomDao.markUnMarkFavourite(credentialId, fav)
         return roomDao.getCredentialViaId(credentialId)
     }
