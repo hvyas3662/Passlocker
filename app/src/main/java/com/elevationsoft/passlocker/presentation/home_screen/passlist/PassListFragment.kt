@@ -28,9 +28,11 @@ import com.elevationsoft.passlocker.utils.FragmentUtils.startActivityForResult
 import com.elevationsoft.passlocker.utils.SearchQueryUtils
 import com.elevationsoft.passlocker.utils.SearchQueryUtils.setSearchQueryListener
 import com.elevationsoft.passlocker.utils.ViewUtils.hide
+import com.elevationsoft.passlocker.utils.ViewUtils.invisible
 import com.elevationsoft.passlocker.utils.ViewUtils.show
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import timber.log.Timber
 
 @AndroidEntryPoint
 class PassListFragment : Fragment(), HomeActivity.OnAddClickedCallBack {
@@ -94,10 +96,6 @@ class PassListFragment : Fragment(), HomeActivity.OnAddClickedCallBack {
             updateUi(it)
         }
 
-        binding.etSearch.setSearchQueryListener(lifecycle) {
-            submitAdapter(it)
-        }
-
         passListVm.isItemDeleted.observe(viewLifecycleOwner) {
             requireContext().toast(it.asString(requireContext()))
         }
@@ -116,7 +114,6 @@ class PassListFragment : Fragment(), HomeActivity.OnAddClickedCallBack {
 
     private fun updateUi(state: PassListFragmentState) {
         if (state.isCategoryLoaded) {
-
             if (state.isLoading) {
                 CustomLoader.getInstance().showLoader(requireActivity())
             } else {
@@ -124,13 +121,11 @@ class PassListFragment : Fragment(), HomeActivity.OnAddClickedCallBack {
             }
 
             if (state.hasError.asString(requireContext()).isNotEmpty()) {
-                binding.llSearch.hide()
-                binding.layoutEmptyView.root.show()
-                binding.layoutEmptyView.tvError.text =
-                    state.hasError.asString(requireContext())
+                requireContext().toast(state.hasError.asString(requireContext()))
             }
+
         } else {
-            binding.rvPasslist.hide()
+            binding.rvPasslist.invisible()
             if (state.isLoading) {
                 binding.layoutLoadingView.root.show()
                 binding.layoutEmptyView.root.hide()
@@ -171,15 +166,28 @@ class PassListFragment : Fragment(), HomeActivity.OnAddClickedCallBack {
             .setSelectedIndex(selectedCategoryIndex)
             .setSelectListener(object : ButtonList.ItemListener {
                 override fun onItemClick(item: String, index: Int) {
-                    selectedCategoryId = categoryList[index].id
-                    passListVm.saveSelectedCategoryId(categoryList[index].id)
-                    passListVm.updateItemInPaging(PagingItemEvent.RemoveAllItem())
-                    submitAdapter()
+                    onCategoryChanged(categoryList, index)
                 }
             })
         binding.llCatTabs.removeAllViews()
         binding.llCatTabs.addView(btnList.createView())
 
+    }
+
+    private fun onCategoryChanged(categoryList: List<Category>, index: Int) {
+        //stop and reset search
+        stopSearch()
+        binding.etSearch.setText("")
+
+        //save selected category
+        selectedCategoryId = categoryList[index].id
+        passListVm.saveSelectedCategoryId(categoryList[index].id)
+
+        //remove old item
+        updateItemInPaging(PagingItemEvent.RemoveAllItem())
+
+        //restart paging for selected category
+        submitAdapter()
     }
 
     private fun setUpRecyclerView() {
@@ -209,11 +217,20 @@ class PassListFragment : Fragment(), HomeActivity.OnAddClickedCallBack {
 
     private fun submitAdapter(query: String = binding.etSearch.text.toString()) {
         lifecycleScope.launchWhenResumed {
-            passListVm.updateItemInPaging(PagingItemEvent.None())
             passListVm.getCredentialList(query, selectedCategoryId)
                 .collectLatest {
+                    Timber.tag("SUBMIT_DATA_RV").d("main")
                     passListAdapter?.submitData(lifecycle, it)
                 }
+        }
+    }
+
+    private fun updateItemInPaging(pagingItemEvent: PagingItemEvent<Credential>) {
+        lifecycleScope.launchWhenResumed {
+            passListVm.updateItemInPaging(pagingItemEvent)?.collectLatest {
+                Timber.tag("SUBMIT_DATA_RV").d("update")
+                passListAdapter?.submitData(lifecycle, it)
+            }
         }
     }
 
@@ -224,19 +241,22 @@ class PassListFragment : Fragment(), HomeActivity.OnAddClickedCallBack {
                     is LoadState.Loading -> {
                         binding.layoutLoadingView.root.show()
                         binding.layoutEmptyView.root.hide()
-                        binding.rvPasslist.hide()
+                        binding.rvPasslist.invisible()
+                        stopSearch()
                     }
                     is LoadState.NotLoading -> {
                         binding.layoutLoadingView.root.hide()
                         binding.layoutEmptyView.root.hide()
                         binding.rvPasslist.show()
+                        startSearch()
                     }
                     is LoadState.Error -> {
                         binding.layoutLoadingView.root.hide()
                         binding.layoutEmptyView.root.show()
-                        binding.rvPasslist.hide()
+                        binding.rvPasslist.invisible()
                         binding.layoutEmptyView.tvError.text =
                             (it.refresh as LoadState.Error).error.localizedMessage
+                        stopSearch()
                     }
                 }
             }
@@ -269,9 +289,19 @@ class PassListFragment : Fragment(), HomeActivity.OnAddClickedCallBack {
             }).show()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    private fun startSearch() {
+        binding.etSearch.setSearchQueryListener(lifecycle) {
+            submitAdapter(it)
+        }
+    }
+
+    private fun stopSearch() {
         SearchQueryUtils.cancelJob()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        stopSearch()
     }
 
     companion object {

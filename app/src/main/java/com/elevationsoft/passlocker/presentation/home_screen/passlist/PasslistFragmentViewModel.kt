@@ -92,7 +92,9 @@ class PasslistFragmentViewModel @Inject constructor(
                 }
 
                 is DataState.Failed -> {
-                    isItemMarkedFav.value = it.errorMsg
+                    _passlistFragState.value = passlistFragState.value?.copy(
+                        hasError = it.errorMsg,
+                    )
                 }
 
                 is DataState.Success -> {
@@ -117,7 +119,9 @@ class PasslistFragmentViewModel @Inject constructor(
                 }
 
                 is DataState.Failed -> {
-                    isItemDeleted.value = it.errorMsg
+                    _passlistFragState.value = passlistFragState.value?.copy(
+                        hasError = it.errorMsg,
+                    )
                 }
 
                 is DataState.Success -> {
@@ -149,7 +153,8 @@ class PasslistFragmentViewModel @Inject constructor(
 
     fun updateItemInPaging(pagingItemEvent: PagingItemEvent<Credential>): Flow<PagingData<Credential>>? {
         credentialPagingData?.let {
-            return applyModification(it, pagingItemEvent)
+            credentialPagingData = applyModification(it, pagingItemEvent)
+            return credentialPagingData
         }
         return null
     }
@@ -158,17 +163,17 @@ class PasslistFragmentViewModel @Inject constructor(
         pagingDataFlow: Flow<PagingData<Credential>>,
         pagingItemEvent: PagingItemEvent<Credential>
     ): Flow<PagingData<Credential>> {
-        pagingDataFlow.map { pagingData ->
+        return pagingDataFlow.map { pagingData ->
             when (pagingItemEvent) {
                 is PagingItemEvent.None -> {
                     pagingData
                 }
                 is PagingItemEvent.EditItem -> {
-                    pagingData.map {
+                    pagingData.map pageDataMap@{
                         if (it.id == pagingItemEvent.item.id) {
-                            return@map pagingItemEvent.item.copy()
+                            return@pageDataMap pagingItemEvent.item.copy()
                         }
-                        return@map it
+                        return@pageDataMap it
                     }
                 }
                 is PagingItemEvent.RemoveItem -> {
@@ -182,7 +187,7 @@ class PasslistFragmentViewModel @Inject constructor(
                 }
             }
         }
-        return pagingDataFlow
+
     }
 
 }
