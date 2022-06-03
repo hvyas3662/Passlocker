@@ -58,7 +58,9 @@ class AddCredentialsActivity : AppCompatActivity() {
                     toast(it.hasError.asString(this@AddCredentialsActivity), Toast.LENGTH_LONG)
                 } else if (it.isCredentialAdded) {
                     CustomLoader.getInstance().hideLoader(this)
-                    setResult(Activity.RESULT_OK, Intent())
+                    setResult(Activity.RESULT_OK, Intent().apply {
+                        putExtra(KEY_CREDENTIAL_MODE, mode)
+                    })
                     if (mode == MODE_EDIT) {
                         toast(getString(R.string.text_credential_updated), Toast.LENGTH_LONG)
                     } else {
@@ -166,7 +168,8 @@ class AddCredentialsActivity : AppCompatActivity() {
 
     companion object {
         const val KEY_CREDENTIAL_OBJ = "credential_obj"
-        private const val MODE_ADD = "ADD"
+        const val KEY_CREDENTIAL_MODE = "credential_mode"
+        const val MODE_ADD = "ADD"
         private const val MODE_EDIT = "EDIT"
     }
 }

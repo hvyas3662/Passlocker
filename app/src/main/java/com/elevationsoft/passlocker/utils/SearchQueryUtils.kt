@@ -47,5 +47,7 @@ object SearchQueryUtils {
 
     fun cancelJob() {
         searchQueryJob?.cancel()
+        searchQueryJob = null
+        searchQueryTextWatcher = null
     }
 }

@@ -4,8 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.PagingData
-import androidx.paging.cachedIn
+import androidx.paging.*
 import com.elevationsoft.passlocker.R
 import com.elevationsoft.passlocker.domain.models.Credential
 import com.elevationsoft.passlocker.domain.use_cases.category.GetCategoryListUC
@@ -20,6 +19,7 @@ import com.elevationsoft.passlocker.utils.common_classes.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
@@ -39,6 +39,9 @@ class PasslistFragmentViewModel @Inject constructor(
     val isItemMarkedFav: MutableLiveData<UiText> = MutableLiveData()
 
     val isItemDeleted: MutableLiveData<UiText> = MutableLiveData()
+
+    private var credentialPagingData: Flow<PagingData<Credential>>? = null
+
 
     fun getCategoryList() {
         categoryListUC().onEach {
@@ -124,6 +127,7 @@ class PasslistFragmentViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
+
     fun getCredentialList(searchQuery: String, categoryId: Long): Flow<PagingData<Credential>> {
         val listMode = if (categoryId <= 0) {
             if (searchQuery.isNotEmpty()) {
@@ -138,7 +142,47 @@ class PasslistFragmentViewModel @Inject constructor(
                 CredentialListMode.Category(categoryId)
             }
         }
-        return getCredentialListUC(listMode).cachedIn(viewModelScope)
+        credentialPagingData = getCredentialListUC(listMode)
+            .cachedIn(viewModelScope)
+        return credentialPagingData!!
+    }
+
+    fun updateItemInPaging(pagingItemEvent: PagingItemEvent<Credential>): Flow<PagingData<Credential>>? {
+        credentialPagingData?.let {
+            return applyModification(it, pagingItemEvent)
+        }
+        return null
+    }
+
+    private fun applyModification(
+        pagingDataFlow: Flow<PagingData<Credential>>,
+        pagingItemEvent: PagingItemEvent<Credential>
+    ): Flow<PagingData<Credential>> {
+        pagingDataFlow.map { pagingData ->
+            when (pagingItemEvent) {
+                is PagingItemEvent.None -> {
+                    pagingData
+                }
+                is PagingItemEvent.EditItem -> {
+                    pagingData.map {
+                        if (it.id == pagingItemEvent.item.id) {
+                            return@map pagingItemEvent.item.copy()
+                        }
+                        return@map it
+                    }
+                }
+                is PagingItemEvent.RemoveItem -> {
+                    pagingData.filter { it.id != pagingItemEvent.item.id }
+                }
+                is PagingItemEvent.RemoveAllItem -> {
+                    pagingData.filter { it.id == -1L }
+                }
+                is PagingItemEvent.InsertUpdateItem -> {
+                    pagingData.insertHeaderItem(item = pagingItemEvent.item.copy())
+                }
+            }
+        }
+        return pagingDataFlow
     }
 
 }

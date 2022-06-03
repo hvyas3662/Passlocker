@@ -18,6 +18,8 @@ import com.elevationsoft.passlocker.databinding.FragmentPassListBinding
 import com.elevationsoft.passlocker.domain.models.Category
 import com.elevationsoft.passlocker.domain.models.Credential
 import com.elevationsoft.passlocker.presentation.add_credentials.AddCredentialsActivity
+import com.elevationsoft.passlocker.presentation.add_credentials.AddCredentialsActivity.Companion.KEY_CREDENTIAL_MODE
+import com.elevationsoft.passlocker.presentation.add_credentials.AddCredentialsActivity.Companion.KEY_CREDENTIAL_OBJ
 import com.elevationsoft.passlocker.presentation.home_screen.HomeActivity
 import com.elevationsoft.passlocker.utils.ButtonList
 import com.elevationsoft.passlocker.utils.ContextUtils.toast
@@ -44,7 +46,31 @@ class PassListFragment : Fragment(), HomeActivity.OnAddClickedCallBack {
         openAddCredentialActivity = startActivityForResult {
             it?.let { result ->
                 if (result.resultCode == RESULT_OK) {
-                    passListAdapter?.refresh()
+                    result.data?.let { resultIntent ->
+                        if (resultIntent.hasExtra(KEY_CREDENTIAL_MODE) && resultIntent.hasExtra(
+                                KEY_CREDENTIAL_OBJ
+                            )
+                        ) {
+                            val credential: Credential? =
+                                resultIntent.getParcelableExtra(KEY_CREDENTIAL_OBJ)
+
+                            if (credential != null) {
+                                if (resultIntent.getStringExtra(KEY_CREDENTIAL_MODE) == AddCredentialsActivity.MODE_ADD) {
+                                    passListVm.updateItemInPaging(
+                                        PagingItemEvent.InsertUpdateItem(
+                                            credential
+                                        )
+                                    )
+                                } else {
+                                    passListVm.updateItemInPaging(
+                                        PagingItemEvent.EditItem(
+                                            credential
+                                        )
+                                    )
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -147,6 +173,7 @@ class PassListFragment : Fragment(), HomeActivity.OnAddClickedCallBack {
                 override fun onItemClick(item: String, index: Int) {
                     selectedCategoryId = categoryList[index].id
                     passListVm.saveSelectedCategoryId(categoryList[index].id)
+                    passListVm.updateItemInPaging(PagingItemEvent.RemoveAllItem())
                     submitAdapter()
                 }
             })
@@ -163,7 +190,7 @@ class PassListFragment : Fragment(), HomeActivity.OnAddClickedCallBack {
             PassListAdapter(requireContext(), object : PassListAdapter.PassListItemCallBacks {
                 override fun onItemClicked(credential: Credential) {
                     val intent = Intent(requireActivity(), AddCredentialsActivity::class.java)
-                    intent.putExtra(AddCredentialsActivity.KEY_CREDENTIAL_OBJ, credential)
+                    intent.putExtra(KEY_CREDENTIAL_OBJ, credential)
                     openAddCredentialActivity.launch(intent)
                 }
 
@@ -182,9 +209,10 @@ class PassListFragment : Fragment(), HomeActivity.OnAddClickedCallBack {
 
     private fun submitAdapter(query: String = binding.etSearch.text.toString()) {
         lifecycleScope.launchWhenResumed {
+            passListVm.updateItemInPaging(PagingItemEvent.None())
             passListVm.getCredentialList(query, selectedCategoryId)
                 .collectLatest {
-                    passListAdapter?.submitData(it)
+                    passListAdapter?.submitData(lifecycle, it)
                 }
         }
     }
