@@ -63,12 +63,15 @@ interface RoomDao {
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertUpdateCredential(Credential: CredentialDto)
+    suspend fun insertUpdateCredential(Credential: CredentialDto): Long
 
     @Query("DELETE FROM credential WHERE id = :credentialId")
     suspend fun deleteCredential(credentialId: Long)
 
     @Query("UPDATE credential SET isFavourite = :fav  WHERE id = :credentialId")
     suspend fun markUnMarkFavourite(credentialId: Long, fav: Boolean)
+
+    @Query("SELECT * FROM credential WHERE id = :credentialId")
+    suspend fun getCredentialViaId(credentialId: Long): CredentialDto
 
 }

@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.*
-import com.elevationsoft.passlocker.R
 import com.elevationsoft.passlocker.domain.models.Credential
 import com.elevationsoft.passlocker.domain.use_cases.category.GetCategoryListUC
 import com.elevationsoft.passlocker.domain.use_cases.credential.DeleteCredentialUC
@@ -15,7 +14,6 @@ import com.elevationsoft.passlocker.domain.utils.CredentialListMode
 import com.elevationsoft.passlocker.presentation.home_screen.passlist.PassListFragmentState.Companion.LOADING_TYPE_OVER_UI
 import com.elevationsoft.passlocker.utils.PrefUtils
 import com.elevationsoft.passlocker.utils.common_classes.DataState
-import com.elevationsoft.passlocker.utils.common_classes.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
@@ -36,9 +34,9 @@ class PasslistFragmentViewModel @Inject constructor(
         MutableLiveData(PassListFragmentState())
     val passlistFragState: LiveData<PassListFragmentState> = _passlistFragState
 
-    val isItemMarkedFav: MutableLiveData<UiText> = MutableLiveData()
+    val isItemMarkedFav: MutableLiveData<Credential> = MutableLiveData()
 
-    val isItemDeleted: MutableLiveData<UiText> = MutableLiveData()
+    val isItemDeleted: MutableLiveData<Credential> = MutableLiveData()
 
     private var credentialPagingData: Flow<PagingData<Credential>>? = null
 
@@ -98,11 +96,7 @@ class PasslistFragmentViewModel @Inject constructor(
                 }
 
                 is DataState.Success -> {
-                    if (fav) {
-                        isItemMarkedFav.value = UiText.StaticText(R.string.text_item_marked_fav)
-                    } else {
-                        isItemMarkedFav.value = UiText.StaticText(R.string.text_item_unmarked_fav)
-                    }
+                    isItemMarkedFav.value = it.data
                 }
             }
         }.launchIn(viewModelScope)
@@ -125,7 +119,7 @@ class PasslistFragmentViewModel @Inject constructor(
                 }
 
                 is DataState.Success -> {
-                    isItemDeleted.value = UiText.StaticText(R.string.text_credential_deleted_msg)
+                    isItemDeleted.value = it.data
                 }
             }
         }.launchIn(viewModelScope)

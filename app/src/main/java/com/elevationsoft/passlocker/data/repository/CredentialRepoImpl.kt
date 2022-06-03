@@ -23,15 +23,19 @@ class CredentialRepoImpl @Inject constructor(private val roomDao: RoomDao) : Cre
         }.flow
     }
 
-    override suspend fun insertUpdateCredential(credential: CredentialDto) {
-        return roomDao.insertUpdateCredential(credential)
+    override suspend fun insertUpdateCredential(credential: CredentialDto): CredentialDto {
+        val credentialId = roomDao.insertUpdateCredential(credential)
+        return roomDao.getCredentialViaId(credentialId)
     }
 
-    override suspend fun deleteCredential(credentialId: Long) {
-        return roomDao.deleteCredential(credentialId)
+    override suspend fun deleteCredential(credentialId: Long): CredentialDto {
+        val credentialDto = roomDao.getCredentialViaId(credentialId)
+        roomDao.deleteCredential(credentialId)
+        return credentialDto
     }
 
-    override suspend fun markUnMarkFavourite(credentialId: Long, fav: Boolean) {
-        return roomDao.markUnMarkFavourite(credentialId, fav)
+    override suspend fun markUnMarkFavourite(credentialId: Long, fav: Boolean): CredentialDto {
+        roomDao.markUnMarkFavourite(credentialId, fav)
+        return roomDao.getCredentialViaId(credentialId)
     }
 }

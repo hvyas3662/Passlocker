@@ -10,11 +10,11 @@ import javax.inject.Inject
 
 class AddUpdateCredentialUC @Inject constructor(private val credentialRepo: CredentialRepoImpl) {
 
-    operator fun invoke(credential: Credential): Flow<DataState<Boolean>> {
+    operator fun invoke(credential: Credential): Flow<DataState<Credential>> {
         return flow {
             emit(DataState.Loading(true))
-            credentialRepo.insertUpdateCredential(credential.toCredentialDto())
-            emit(DataState.Success(true))
+            val credentialDto = credentialRepo.insertUpdateCredential(credential.toCredentialDto())
+            emit(DataState.Success(credentialDto.toCredential()))
         }
     }
 }

@@ -32,7 +32,6 @@ import com.elevationsoft.passlocker.utils.ViewUtils.invisible
 import com.elevationsoft.passlocker.utils.ViewUtils.show
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import timber.log.Timber
 
 @AndroidEntryPoint
 class PassListFragment : Fragment(), HomeActivity.OnAddClickedCallBack {
@@ -58,17 +57,30 @@ class PassListFragment : Fragment(), HomeActivity.OnAddClickedCallBack {
 
                             if (credential != null) {
                                 if (resultIntent.getStringExtra(KEY_CREDENTIAL_MODE) == AddCredentialsActivity.MODE_ADD) {
-                                    passListVm.updateItemInPaging(
-                                        PagingItemEvent.InsertUpdateItem(
-                                            credential
+                                    if (selectedCategoryId == credential.categoryId) {
+                                        updateItemInPaging(
+                                            PagingItemEvent.InsertUpdateItem(
+                                                credential
+                                            )
                                         )
-                                    )
+                                        binding.rvPasslist.scrollToPosition(0)
+                                    }
                                 } else {
-                                    passListVm.updateItemInPaging(
-                                        PagingItemEvent.EditItem(
-                                            credential
-                                        )
-                                    )
+                                    when (selectedCategoryId) {
+                                        -1L -> {
+                                            updateItemInPaging(PagingItemEvent.EditItem(credential))
+                                        }
+                                        credential.categoryId -> {
+                                            updateItemInPaging(PagingItemEvent.EditItem(credential))
+                                        }
+                                        else -> {
+                                            updateItemInPaging(
+                                                PagingItemEvent.RemoveItem(
+                                                    credential
+                                                )
+                                            )
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -97,11 +109,25 @@ class PassListFragment : Fragment(), HomeActivity.OnAddClickedCallBack {
         }
 
         passListVm.isItemDeleted.observe(viewLifecycleOwner) {
-            requireContext().toast(it.asString(requireContext()))
+            CustomLoader.getInstance().hideLoader(requireActivity())
+            updateItemInPaging(PagingItemEvent.RemoveItem(it))
+            requireContext().toast(getString(R.string.text_credential_deleted_msg))
         }
 
         passListVm.isItemMarkedFav.observe(viewLifecycleOwner) {
-            requireContext().toast(it.asString(requireContext()))
+            CustomLoader.getInstance().hideLoader(requireActivity())
+            if (it.isFavourite) {
+                updateItemInPaging(PagingItemEvent.EditItem(it))
+                requireContext().toast(getString(R.string.text_item_marked_fav))
+            } else {
+                if (selectedCategoryId > 0L) {
+                    updateItemInPaging(PagingItemEvent.EditItem(it))
+                } else {
+                    updateItemInPaging(PagingItemEvent.RemoveItem(it))
+                }
+                requireContext().toast(getString(R.string.text_item_unmarked_fav))
+            }
+
         }
 
         passListVm.getCategoryList()
@@ -219,7 +245,6 @@ class PassListFragment : Fragment(), HomeActivity.OnAddClickedCallBack {
         lifecycleScope.launchWhenResumed {
             passListVm.getCredentialList(query, selectedCategoryId)
                 .collectLatest {
-                    Timber.tag("SUBMIT_DATA_RV").d("main")
                     passListAdapter?.submitData(lifecycle, it)
                 }
         }
@@ -228,7 +253,6 @@ class PassListFragment : Fragment(), HomeActivity.OnAddClickedCallBack {
     private fun updateItemInPaging(pagingItemEvent: PagingItemEvent<Credential>) {
         lifecycleScope.launchWhenResumed {
             passListVm.updateItemInPaging(pagingItemEvent)?.collectLatest {
-                Timber.tag("SUBMIT_DATA_RV").d("update")
                 passListAdapter?.submitData(lifecycle, it)
             }
         }

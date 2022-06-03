@@ -60,6 +60,7 @@ class AddCredentialsActivity : AppCompatActivity() {
                     CustomLoader.getInstance().hideLoader(this)
                     setResult(Activity.RESULT_OK, Intent().apply {
                         putExtra(KEY_CREDENTIAL_MODE, mode)
+                        putExtra(KEY_CREDENTIAL_OBJ, it.credential)
                     })
                     if (mode == MODE_EDIT) {
                         toast(getString(R.string.text_credential_updated), Toast.LENGTH_LONG)

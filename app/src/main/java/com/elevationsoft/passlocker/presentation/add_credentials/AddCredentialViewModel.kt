@@ -103,7 +103,8 @@ class AddCredentialViewModel @Inject constructor(
                 }
 
                 is DataState.Success -> {
-                    _screenState.value = screenState.value!!.copy(isCredentialAdded = it.data!!)
+                    _screenState.value =
+                        screenState.value!!.copy(isCredentialAdded = true, credential = it.data)
                 }
 
                 is DataState.Failed -> {
