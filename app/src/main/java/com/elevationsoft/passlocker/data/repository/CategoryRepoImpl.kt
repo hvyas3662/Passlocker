@@ -8,7 +8,6 @@ import javax.inject.Inject
 
 class CategoryRepoImpl @Inject constructor(private val roomDao: RoomDao) : CategoryRepo {
     override suspend fun getAllCategory(): List<CategoryDto> {
-        delay(500)
         return roomDao.getAllCategory()
     }
 

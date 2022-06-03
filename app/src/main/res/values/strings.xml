@@ -32,6 +32,7 @@
     <string name="text_item_unmarked_fav">Credential Removed Favourite</string>
     <string name="text_credential_deleted_msg">Credential Deleted Successfully</string>
     <string name="text_credential_delete_dialog_message">Are you sure? You want to delete %s.</string>
+    <string name="text_please_add_category">Please add at lease one Category before adding Credential </string>
 
 
     <!-- login screen -->

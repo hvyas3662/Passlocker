@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -116,6 +117,13 @@ class PassListFragment : Fragment(), HomeActivity.OnAddClickedCallBack {
             CustomLoader.getInstance().hideLoader(requireActivity())
             updateItemInPaging(PagingItemEvent.RemoveItem(it))
             requireContext().toast(getString(R.string.text_credential_deleted_msg))
+            if (binding.rvPasslist.layoutManager!!.itemCount <= 0) {
+                binding.layoutLoadingView.root.hide()
+                binding.layoutEmptyView.root.show()
+                binding.rvPasslist.invisible()
+                binding.layoutEmptyView.tvError.text = getString(R.string.text_no_data)
+                stopSearch()
+            }
         }
 
         passListVm.isItemMarkedFav.observe(viewLifecycleOwner) {
@@ -132,14 +140,25 @@ class PassListFragment : Fragment(), HomeActivity.OnAddClickedCallBack {
                 requireContext().toast(getString(R.string.text_item_unmarked_fav))
             }
 
+            if (binding.rvPasslist.layoutManager!!.itemCount <= 0) {
+                binding.layoutLoadingView.root.hide()
+                binding.layoutEmptyView.root.show()
+                binding.rvPasslist.invisible()
+                binding.layoutEmptyView.tvError.text = getString(R.string.text_no_data)
+                stopSearch()
+            }
         }
 
         passListVm.getCategoryList()
     }
 
     override fun onAddClicked() {
-        val intent = Intent(requireActivity(), AddCredentialsActivity::class.java)
-        openAddCredentialActivity.launch(intent)
+        if (passListVm.passlistFragState.value != null && passListVm.passlistFragState.value!!.categoryList.size > 1) {
+            val intent = Intent(requireActivity(), AddCredentialsActivity::class.java)
+            openAddCredentialActivity.launch(intent)
+        } else {
+            requireContext().toast(getString(R.string.text_please_add_category), Toast.LENGTH_LONG)
+        }
     }
 
     private fun updateUi(state: PassListFragmentState) {
