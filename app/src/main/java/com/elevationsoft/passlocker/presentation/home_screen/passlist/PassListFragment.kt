@@ -58,12 +58,16 @@ class PassListFragment : Fragment(), HomeActivity.OnAddClickedCallBack {
                             if (credential != null) {
                                 if (resultIntent.getStringExtra(KEY_CREDENTIAL_MODE) == AddCredentialsActivity.MODE_ADD) {
                                     if (selectedCategoryId == credential.categoryId) {
-                                        updateItemInPaging(
-                                            PagingItemEvent.InsertUpdateItem(
-                                                credential
+                                        if (binding.rvPasslist.layoutManager!!.itemCount <= 0) {
+                                            submitAdapter()
+                                        } else {
+                                            updateItemInPaging(
+                                                PagingItemEvent.InsertUpdateItem(
+                                                    credential
+                                                )
                                             )
-                                        )
-                                        binding.rvPasslist.scrollToPosition(0)
+                                            binding.rvPasslist.scrollToPosition(0)
+                                        }
                                     }
                                 } else {
                                     when (selectedCategoryId) {
