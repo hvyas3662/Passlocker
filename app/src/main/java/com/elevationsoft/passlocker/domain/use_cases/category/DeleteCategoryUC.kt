@@ -1,14 +1,13 @@
 package com.elevationsoft.passlocker.domain.use_cases.category
 
-import com.elevationsoft.passlocker.data.repository.CategoryRepoImpl
 import com.elevationsoft.passlocker.domain.models.Category
+import com.elevationsoft.passlocker.domain.repository.CategoryRepo
 import com.elevationsoft.passlocker.utils.common_classes.DataState
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class DeleteCategoryUC @Inject constructor(private val categoryRepo: CategoryRepoImpl) {
+class DeleteCategoryUC @Inject constructor(private val categoryRepo: CategoryRepo) {
 
     operator fun invoke(categoryId: Long): Flow<DataState<List<Category>>> {
         return flow {

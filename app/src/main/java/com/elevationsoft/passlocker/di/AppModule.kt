@@ -6,11 +6,8 @@ import com.elevationsoft.passlocker.data.local.room.PassLockerDb
 import com.elevationsoft.passlocker.data.local.room.RoomDao
 import com.elevationsoft.passlocker.data.repository.CategoryRepoImpl
 import com.elevationsoft.passlocker.data.repository.CredentialRepoImpl
-import com.elevationsoft.passlocker.domain.use_cases.category.*
-import com.elevationsoft.passlocker.domain.use_cases.credential.AddUpdateCredentialUC
-import com.elevationsoft.passlocker.domain.use_cases.credential.DeleteCredentialUC
-import com.elevationsoft.passlocker.domain.use_cases.credential.GetCredentialListUC
-import com.elevationsoft.passlocker.domain.use_cases.credential.MarkUnMarkFavouriteCredentialUC
+import com.elevationsoft.passlocker.domain.repository.CategoryRepo
+import com.elevationsoft.passlocker.domain.repository.CredentialRepo
 import com.elevationsoft.passlocker.utils.PrefUtils
 import dagger.Module
 import dagger.Provides
@@ -42,69 +39,14 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideCategoryRepo(roomDao: RoomDao): CategoryRepoImpl {
+    fun provideCategoryRepo(roomDao: RoomDao): CategoryRepo {
         return CategoryRepoImpl(roomDao)
     }
 
     @Provides
     @Singleton
-    fun provideCredentialRepo(roomDao: RoomDao): CredentialRepoImpl {
+    fun provideCredentialRepo(roomDao: RoomDao): CredentialRepo {
         return CredentialRepoImpl(roomDao)
     }
 
-    //Category use case providers
-    @Provides
-    @Singleton
-    fun provideGetCategoryListUC(categoryRepo: CategoryRepoImpl): GetCategoryListUC {
-        return GetCategoryListUC(categoryRepo)
-    }
-
-    @Provides
-    @Singleton
-    fun provideAddCategoryUC(categoryRepo: CategoryRepoImpl): AddUpdateCategoryUC {
-        return AddUpdateCategoryUC(categoryRepo)
-    }
-
-    @Provides
-    @Singleton
-    fun provideGetLastCategoryPositionUC(categoryRepo: CategoryRepoImpl): GetLastCategoryPositionUC {
-        return GetLastCategoryPositionUC(categoryRepo)
-    }
-
-    @Provides
-    @Singleton
-    fun provideDeleteCategoryUC(categoryRepo: CategoryRepoImpl): DeleteCategoryUC {
-        return DeleteCategoryUC(categoryRepo)
-    }
-
-    @Provides
-    @Singleton
-    fun provideUpdateCategoryListPositionUC(categoryRepo: CategoryRepoImpl): UpdateCategoryListPositionUC {
-        return UpdateCategoryListPositionUC(categoryRepo)
-    }
-
-    //Credential use case providers
-    @Provides
-    @Singleton
-    fun provideAddUpdateCredentialUC(credentialRepoImpl: CredentialRepoImpl): AddUpdateCredentialUC {
-        return AddUpdateCredentialUC(credentialRepoImpl)
-    }
-
-    @Provides
-    @Singleton
-    fun provideMarkUnMarkFavouriteCredentialUC(credentialRepoImpl: CredentialRepoImpl): MarkUnMarkFavouriteCredentialUC {
-        return MarkUnMarkFavouriteCredentialUC(credentialRepoImpl)
-    }
-
-    @Provides
-    @Singleton
-    fun provideDeleteCredentialUC(credentialRepoImpl: CredentialRepoImpl): DeleteCredentialUC {
-        return DeleteCredentialUC(credentialRepoImpl)
-    }
-
-    @Provides
-    @Singleton
-    fun provideGetCredentialListUC(credentialRepoImpl: CredentialRepoImpl): GetCredentialListUC {
-        return GetCredentialListUC(credentialRepoImpl)
-    }
 }

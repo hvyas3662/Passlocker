@@ -96,7 +96,7 @@ class PasslistFragmentViewModel @Inject constructor(
                 }
 
                 is DataState.Success -> {
-                    isItemMarkedFav.value = it.data
+                    isItemMarkedFav.value = it.data!!
                 }
             }
         }.launchIn(viewModelScope)
@@ -119,7 +119,7 @@ class PasslistFragmentViewModel @Inject constructor(
                 }
 
                 is DataState.Success -> {
-                    isItemDeleted.value = it.data
+                    isItemDeleted.value = it.data!!
                 }
             }
         }.launchIn(viewModelScope)
